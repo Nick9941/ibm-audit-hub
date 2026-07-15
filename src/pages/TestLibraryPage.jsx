@@ -2,27 +2,24 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { auditData } from '../data/condensedData'
 
+const ACCOUNTING_CONTROLS_PROGRAMS = ['Intercompany Accounting', 'Corporate Social Responsibility']
+
 function TestLibraryPage() {
   const [query, setQuery] = useState('')
 
   const allTests = Object.entries(auditData).flatMap(([functionId, functionData]) =>
     functionData.programs.flatMap(program =>
       program.riskAreas.flatMap(riskArea =>
-        riskArea.specificRisks.flatMap(risk =>
-          risk.controlObjectives.flatMap(objective =>
-            objective.controls.flatMap(control =>
-              control.controlTypes.flatMap(controlType =>
-                controlType.testTemplates.map(template => ({
-                  ...template,
-                  functionId,
-                  functionName: functionData.name,
-                  functionColor: functionData.color,
-                  programName: program.name,
-                  controlName: control.name,
-                  controlTypeName: controlType.name
-                }))
-              )
-            )
+        riskArea.controlObjectives.flatMap(objective =>
+          objective.controls.flatMap(control =>
+            control.testTemplates.map(template => ({
+              ...template,
+              functionId,
+              functionName: functionData.name,
+              functionColor: functionData.color,
+              programName: program.name,
+              controlName: control.name
+            }))
           )
         )
       )
@@ -36,7 +33,6 @@ function TestLibraryPage() {
     t.functionName.toLowerCase().includes(q) ||
     t.programName.toLowerCase().includes(q) ||
     t.controlName.toLowerCase().includes(q) ||
-    t.controlTypeName.toLowerCase().includes(q) ||
     t.steps.some(s => s.toLowerCase().includes(q))
   )
 
@@ -61,6 +57,39 @@ function TestLibraryPage() {
       </div>
 
       <div className="library-grid">
+        {'accounting controls'.includes(q) || q === '' ? (
+          <div className="library-card" style={{ borderColor: '#4f7ecf' }}>
+            <div
+              className="library-card-tag program-tag-hoverable"
+              style={{ background: '#4f7ecf' }}
+              tabIndex={0}
+              role="button"
+              aria-label="View relevant programs"
+            >
+              Relevant Programs
+              <div className="program-indicator-tooltip" role="tooltip">
+                <span className="program-indicator-tooltip-title">Programs</span>
+                <ul className="program-indicator-tooltip-list">
+                  {ACCOUNTING_CONTROLS_PROGRAMS.map(p => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="library-card-meta">Accounting Controls</div>
+            <h3 className="library-card-title">Accounting Controls</h3>
+            <p className="library-card-desc">Comprehensive controls across key accounting processes and financial operations.</p>
+            <div className="library-card-steps">
+              <strong>4 steps</strong>
+              <ul>
+                <li>Identify applicable accounting processes</li>
+                <li>Review relevant controls for each process</li>
+                <li>Assess control design and operating effectiveness</li>
+                <li>Document findings and remediation actions</li>
+              </ul>
+            </div>
+          </div>
+        ) : null}
         {filtered.map(test => (
           <div
             key={test.id}
@@ -70,7 +99,7 @@ function TestLibraryPage() {
             <div className="library-card-tag" style={{ background: test.functionColor }}>
               {test.functionName}
             </div>
-            <div className="library-card-meta">{test.programName} › {test.controlName} › {test.controlTypeName}</div>
+            <div className="library-card-meta">{test.programName} › {test.controlName}</div>
             <h3 className="library-card-title">{test.name}</h3>
             <p className="library-card-desc">{test.description}</p>
             <div className="library-card-steps">
@@ -83,7 +112,7 @@ function TestLibraryPage() {
             </div>
           </div>
         ))}
-        {filtered.length === 0 && (
+        {filtered.length === 0 && !('accounting controls'.includes(q)) && (
           <p className="library-no-results">No tests match "{query}"</p>
         )}
       </div>

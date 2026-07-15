@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useEditData } from '../context/EditContext'
 import EditToolkit from '../components/EditToolkit'
+import CommentLog from '../components/CommentLog'
+
 
 function DeleteBtn({ onClick }) {
   return (
@@ -16,10 +18,11 @@ function DeleteBtn({ onClick }) {
 function FlowchartPage() {
   const { functionId } = useParams()
   const navigate = useNavigate()
-  const { data, deleteRiskArea, deleteSpecificRisk, deleteControl, deleteTestTemplate } = useEditData()
+  const { data, deleteRiskArea, deleteControl, deleteTestTemplate } = useEditData()
   const functionData = data[functionId]
 
   const [selectedProgram, setSelectedProgram] = useState(functionData?.programs[0]?.id || '')
+  const [selectedRiskArea, setSelectedRiskArea] = useState('all')
   const [editMode, setEditMode] = useState(false)
 
   if (!functionData) {
@@ -33,11 +36,17 @@ function FlowchartPage() {
   const currentProgram = functionData.programs.find(p => p.id === selectedProgram) || functionData.programs[0]
   const hasProgramDetails = currentProgram?.riskAreas?.length > 0
   const isAccountingProgram = functionId === 'accounting' && currentProgram?.id === 'acc-prog-1'
+  const isIntercompanyProgram = functionId === 'accounting' && currentProgram?.id === 'acc-prog-3'
   const mockPdfBase = '/ACCOUNTING%20MOCK%20PROGRAM.pdf'
+  const intercompanyPdfBase = '/Intercompany%20Accounting%2010-30-00(2).pdf'
 
   const openProgramResource = () => {
     if (isAccountingProgram) {
       window.open(mockPdfBase, '_blank')
+      return
+    }
+    if (isIntercompanyProgram) {
+      window.open(intercompanyPdfBase, '_blank')
       return
     }
     navigateToDetail(`program/${currentProgram.id}`)
@@ -71,7 +80,7 @@ function FlowchartPage() {
           <select
             id="program-select"
             value={selectedProgram}
-            onChange={(e) => setSelectedProgram(e.target.value)}
+            onChange={(e) => { setSelectedProgram(e.target.value); setSelectedRiskArea('all') }}
             className="program-dropdown"
             style={{ borderColor: functionData.color }}
           >
@@ -82,6 +91,24 @@ function FlowchartPage() {
             ))}
           </select>
         </div>
+
+        {hasProgramDetails && (
+          <div className="program-selector">
+            <label htmlFor="risk-area-select">Filter Risk Area:</label>
+            <select
+              id="risk-area-select"
+              value={selectedRiskArea}
+              onChange={(e) => setSelectedRiskArea(e.target.value)}
+              className="program-dropdown"
+              style={{ borderColor: functionData.color }}
+            >
+              <option value="all">All Risk Areas</option>
+              {currentProgram.riskAreas.map(ra => (
+                <option key={ra.id} value={ra.id}>{ra.name}</option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
       <div className="flowchart-body">
@@ -90,8 +117,8 @@ function FlowchartPage() {
             <div className="flow-level">
               <div
                 className="flow-node program-node"
-                style={{ borderColor: functionData.color, backgroundColor: `${functionData.color}15` }}
-                onClick={isAccountingProgram ? openProgramResource : undefined}
+                style={{ borderColor: functionData.color, backgroundColor: `${functionData.color}15`, cursor: (isAccountingProgram || isIntercompanyProgram) ? 'pointer' : 'default' }}
+                onClick={(isAccountingProgram || isIntercompanyProgram) ? openProgramResource : undefined}
               >
                 <h3>{currentProgram.name}</h3>
                 <p>{currentProgram.description}</p>
@@ -109,6 +136,7 @@ function FlowchartPage() {
                 >
                   <h3>{currentProgram.name}</h3>
                   <p>{currentProgram.description}</p>
+                  <CommentLog nodeId={currentProgram.id} label="Program Comments" />
                 </div>
               </div>
 
@@ -118,104 +146,70 @@ function FlowchartPage() {
               <div className="flow-level">
                 <div className="level-label">Level 2: Risk Area</div>
                 <div className="flow-nodes-row">
-                  {currentProgram.riskAreas.map(riskArea => (
+                  {currentProgram.riskAreas.filter(ra => selectedRiskArea === 'all' || ra.id === selectedRiskArea).map(riskArea => (
                     <div key={riskArea.id} className="flow-column">
                         <div
                           className="flow-node risk-area-node"
                           style={{ borderColor: functionData.color }}
                           onClick={() => openRiskAreaResource(riskArea)}
                         >
-                          {editMode && <DeleteBtn onClick={() => deleteRiskArea(functionId, currentProgram.id, riskArea.id)} />}
+                          {editMode && <DeleteBtn onClick={() => deleteRiskArea(functionId, currentProgram.id, riskArea.id, riskArea.name)} />}
                           <h4>{riskArea.name}</h4>
                           <p>{riskArea.description}</p>
+                          <CommentLog nodeId={riskArea.id} label="Risk Area Comments" />
                         </div>
 
                       <div className="flow-arrow">↓</div>
 
-                      {/* Level 3: Specific Risk */}
-                      {riskArea.specificRisks.map(specificRisk => (
-                        <div key={specificRisk.id} className="flow-sub-column">
-                          <div className="level-label-small">Level 3: Specific Risk</div>
+                      {/* Level 3: Control Objective */}
+                      {riskArea.controlObjectives.map(objective => (
+                        <div key={objective.id} className="flow-sub-column">
+                          <div className="level-label-small">Level 3: Control Objective</div>
                           <div
-                            className="flow-node specific-risk-node"
+                            className="flow-node objective-node"
                             style={{ borderColor: functionData.color }}
-                            onClick={() => navigateToDetail(`specificRisk/${specificRisk.id}`)}
+                            onClick={() => navigateToDetail(`objective/${objective.id}`)}
                           >
-                            {editMode && <DeleteBtn onClick={() => deleteSpecificRisk(functionId, currentProgram.id, riskArea.id, specificRisk.id)} />}
-                            <h5>{specificRisk.name}</h5>
-                            <p className="small-text">{specificRisk.description}</p>
+                            <h5>{objective.name}</h5>
+                            <p className="small-text">{objective.description}</p>
                           </div>
 
                           <div className="flow-arrow-small">↓</div>
 
-                          {/* Level 4: Control Objective */}
-                          {specificRisk.controlObjectives.map(objective => (
-                            <div key={objective.id} className="flow-sub-column">
-                              <div className="level-label-small">Level 4: Control Objective</div>
+                          {/* Level 4: Control */}
+                          {objective.controls.map(control => (
+                            <div key={control.id} className="flow-sub-column">
+                              <div className="level-label-small">Level 4: Control</div>
                               <div
-                                className="flow-node objective-node"
+                                className="flow-node control-node"
                                 style={{ borderColor: functionData.color }}
-                                onClick={() => navigateToDetail(`objective/${objective.id}`)}
+                                onClick={() => navigateToDetail(`control/${control.id}`)}
                               >
-                                <h6>{objective.name}</h6>
-                                <p className="small-text">{objective.description}</p>
+                                {editMode && <DeleteBtn onClick={() => deleteControl(functionId, currentProgram.id, riskArea.id, objective.id, control.id, control.name)} />}
+                                <h6>{control.name}</h6>
+                                <p className="small-text">{control.description}</p>
+                                <CommentLog nodeId={control.id} label="Control Comments" />
                               </div>
 
                               <div className="flow-arrow-small">↓</div>
 
-                              {/* Level 5: Control */}
-                              {objective.controls.map(control => (
-                                <div key={control.id} className="flow-sub-column">
-                                  <div className="level-label-small">Level 5: Control</div>
+                              {/* Level 5: Test Templates */}
+                              <div className="level-label-small">Level 5: Tests</div>
+                              <div className="test-templates-flow">
+                                {control.testTemplates.map(template => (
                                   <div
-                                    className="flow-node control-node"
+                                    key={template.id}
+                                    className="flow-node test-template-node"
                                     style={{ borderColor: functionData.color }}
-                                    onClick={() => navigateToDetail(`control/${control.id}`)}
+                                    onClick={() => navigateToDetail(`testTemplate/${template.id}`)}
                                   >
-                                    {editMode && <DeleteBtn onClick={() => deleteControl(functionId, currentProgram.id, riskArea.id, specificRisk.id, objective.id, control.id)} />}
-                                    <h6>{control.name}</h6>
-                                    <p className="small-text">{control.description}</p>
+                                    {editMode && <DeleteBtn onClick={() => deleteTestTemplate(functionId, currentProgram.id, riskArea.id, objective.id, control.id, template.id, template.name)} />}
+                                    <strong>{template.name}</strong>
+                                    <div className="steps-count">{template.steps.length} steps</div>
+                                    <CommentLog nodeId={template.id} label="Test Comments" />
                                   </div>
-
-                                  <div className="flow-arrow-small">↓</div>
-
-                                  {/* Level 6: Control Types */}
-                                  <div className="control-types-row">
-                                    {control.controlTypes.map(controlType => (
-                                      <div key={controlType.id} className="control-type-column">
-                                        <div className="level-label-small">Level 6: {controlType.name}</div>
-                                        <div
-                                          className="flow-node control-type-node"
-                                          style={{ borderColor: functionData.color }}
-                                          onClick={() => navigateToDetail(`controlType/${controlType.id}`)}
-                                        >
-                                          <h6>{controlType.name}</h6>
-                                          <p className="small-text">{controlType.description}</p>
-                                        </div>
-
-                                        <div className="flow-arrow-small">↓</div>
-
-                                        {/* Level 7: Test Templates */}
-                                        <div className="level-label-small">Level 7: Test Templates</div>
-                                        <div className="test-templates-flow">
-                                          {controlType.testTemplates.map(template => (
-                                            <div
-                                              key={template.id}
-                                              className="flow-node test-template-node"
-                                              style={{ borderColor: functionData.color }}
-                                              onClick={() => navigateToDetail(`testTemplate/${template.id}`)}
-                                            >
-                                              {editMode && <DeleteBtn onClick={() => deleteTestTemplate(functionId, currentProgram.id, riskArea.id, specificRisk.id, objective.id, control.id, controlType.id, template.id)} />}
-                                              <strong>{template.name}</strong>
-                                              <div className="steps-count">{template.steps.length} steps</div>
-                                            </div>
-                                          ))}
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              ))}
+                                ))}
+                              </div>
                             </div>
                           ))}
                         </div>

@@ -29,10 +29,10 @@ function DetailPage() {
         break
       }
     }
-  } else if (type === 'specificRisk') {
+  } else if (type === 'objective') {
     for (const program of functionData.programs) {
       for (const riskArea of program.riskAreas) {
-        const found = riskArea.specificRisks.find(sr => sr.id === id)
+        const found = riskArea.controlObjectives.find(co => co.id === id)
         if (found) {
           item = found
           breadcrumb.push(program.name, riskArea.name, item.name)
@@ -40,47 +40,15 @@ function DetailPage() {
         }
       }
     }
-  } else if (type === 'objective') {
-    for (const program of functionData.programs) {
-      for (const riskArea of program.riskAreas) {
-        for (const specificRisk of riskArea.specificRisks) {
-          const found = specificRisk.controlObjectives.find(co => co.id === id)
-          if (found) {
-            item = found
-            breadcrumb.push(program.name, riskArea.name, specificRisk.name, item.name)
-            break
-          }
-        }
-      }
-    }
   } else if (type === 'control') {
     for (const program of functionData.programs) {
       for (const riskArea of program.riskAreas) {
-        for (const specificRisk of riskArea.specificRisks) {
-          for (const objective of specificRisk.controlObjectives) {
-            const found = objective.controls.find(c => c.id === id)
-            if (found) {
-              item = found
-              breadcrumb.push(program.name, riskArea.name, specificRisk.name, objective.name, item.name)
-              break
-            }
-          }
-        }
-      }
-    }
-  } else if (type === 'controlType') {
-    for (const program of functionData.programs) {
-      for (const riskArea of program.riskAreas) {
-        for (const specificRisk of riskArea.specificRisks) {
-          for (const objective of specificRisk.controlObjectives) {
-            for (const control of objective.controls) {
-              const found = control.controlTypes.find(ct => ct.id === id)
-              if (found) {
-                item = found
-                breadcrumb.push(program.name, riskArea.name, specificRisk.name, objective.name, control.name, item.name)
-                break
-              }
-            }
+        for (const objective of riskArea.controlObjectives) {
+          const found = objective.controls.find(c => c.id === id)
+          if (found) {
+            item = found
+            breadcrumb.push(program.name, riskArea.name, objective.name, item.name)
+            break
           }
         }
       }
@@ -88,17 +56,13 @@ function DetailPage() {
   } else if (type === 'testTemplate') {
     for (const program of functionData.programs) {
       for (const riskArea of program.riskAreas) {
-        for (const specificRisk of riskArea.specificRisks) {
-          for (const objective of specificRisk.controlObjectives) {
-            for (const control of objective.controls) {
-              for (const controlType of control.controlTypes) {
-                const found = controlType.testTemplates.find(tt => tt.id === id)
-                if (found) {
-                  item = found
-                  breadcrumb.push(program.name, riskArea.name, specificRisk.name, objective.name, control.name, controlType.name, item.name)
-                  break
-                }
-              }
+        for (const objective of riskArea.controlObjectives) {
+          for (const control of objective.controls) {
+            const found = control.testTemplates.find(tt => tt.id === id)
+            if (found) {
+              item = found
+              breadcrumb.push(program.name, riskArea.name, objective.name, control.name, item.name)
+              break
             }
           }
         }
@@ -114,13 +78,16 @@ function DetailPage() {
     const levels = {
       program: 'Program',
       riskArea: 'Risk Area',
-      specificRisk: 'Specific Risk',
       objective: 'Control Objective',
       control: 'Control',
-      controlType: 'Control Type',
-      testTemplate: 'Test Template'
+      testTemplate: 'Test'
     }
     return levels[type] || type
+  }
+
+  const getLevelNumber = (type) => {
+    const numbers = { program: '1', riskArea: '2', objective: '3', control: '4', testTemplate: '5' }
+    return numbers[type] || '?'
   }
 
   return (
@@ -143,7 +110,7 @@ function DetailPage() {
 
       <div className="detail-container" style={{ borderColor: functionData.color }}>
         <div className="detail-level-badge" style={{ backgroundColor: functionData.color }}>
-          Level {type === 'program' ? '1' : type === 'riskArea' ? '2' : type === 'specificRisk' ? '3' : type === 'objective' ? '4' : type === 'control' ? '5' : type === 'controlType' ? '6' : '7'}: {getLevelName(type)}
+          Level {getLevelNumber(type)}: {getLevelName(type)}
         </div>
 
         <h1 className="detail-title">{item.name}</h1>
@@ -160,12 +127,12 @@ function DetailPage() {
           </div>
         )}
 
-        {type === 'controlType' && item.testTemplates && (
+        {type === 'control' && item.testTemplates && (
           <div className="related-items">
-            <h2>Test Templates ({item.testTemplates.length})</h2>
+            <h2>Tests ({item.testTemplates.length})</h2>
             <div className="related-grid">
               {item.testTemplates.map(template => (
-                <div 
+                <div
                   key={template.id}
                   className="related-card"
                   onClick={() => navigate(`/detail/${functionId}/testTemplate/${template.id}`)}
@@ -181,33 +148,12 @@ function DetailPage() {
           </div>
         )}
 
-        {type === 'control' && item.controlTypes && (
-          <div className="related-items">
-            <h2>Control Types ({item.controlTypes.length})</h2>
-            <div className="related-grid">
-              {item.controlTypes.map(ct => (
-                <div 
-                  key={ct.id}
-                  className="related-card"
-                  onClick={() => navigate(`/detail/${functionId}/controlType/${ct.id}`)}
-                >
-                  <h3>{ct.name}</h3>
-                  <p>{ct.description}</p>
-                  <div className="card-footer">
-                    {ct.testTemplates.length} test templates
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {type === 'objective' && item.controls && (
           <div className="related-items">
             <h2>Controls ({item.controls.length})</h2>
             <div className="related-grid">
               {item.controls.map(control => (
-                <div 
+                <div
                   key={control.id}
                   className="related-card"
                   onClick={() => navigate(`/detail/${functionId}/control/${control.id}`)}
@@ -215,7 +161,7 @@ function DetailPage() {
                   <h3>{control.name}</h3>
                   <p>{control.description}</p>
                   <div className="card-footer">
-                    {control.controlTypes.length} control types
+                    {control.testTemplates.length} tests
                   </div>
                 </div>
               ))}
@@ -223,12 +169,12 @@ function DetailPage() {
           </div>
         )}
 
-        {type === 'specificRisk' && item.controlObjectives && (
+        {type === 'riskArea' && item.controlObjectives && (
           <div className="related-items">
             <h2>Control Objectives ({item.controlObjectives.length})</h2>
             <div className="related-grid">
               {item.controlObjectives.map(obj => (
-                <div 
+                <div
                   key={obj.id}
                   className="related-card"
                   onClick={() => navigate(`/detail/${functionId}/objective/${obj.id}`)}
@@ -244,33 +190,12 @@ function DetailPage() {
           </div>
         )}
 
-        {type === 'riskArea' && item.specificRisks && (
-          <div className="related-items">
-            <h2>Specific Risks ({item.specificRisks.length})</h2>
-            <div className="related-grid">
-              {item.specificRisks.map(risk => (
-                <div 
-                  key={risk.id}
-                  className="related-card"
-                  onClick={() => navigate(`/detail/${functionId}/specificRisk/${risk.id}`)}
-                >
-                  <h3>{risk.name}</h3>
-                  <p>{risk.description}</p>
-                  <div className="card-footer">
-                    {risk.controlObjectives.length} control objectives
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {type === 'program' && item.riskAreas && (
           <div className="related-items">
             <h2>Risk Areas ({item.riskAreas.length})</h2>
             <div className="related-grid">
               {item.riskAreas.map(area => (
-                <div 
+                <div
                   key={area.id}
                   className="related-card"
                   onClick={() => navigate(`/detail/${functionId}/riskArea/${area.id}`)}
@@ -278,7 +203,7 @@ function DetailPage() {
                   <h3>{area.name}</h3>
                   <p>{area.description}</p>
                   <div className="card-footer">
-                    {area.specificRisks.length} specific risks
+                    {area.controlObjectives.length} control objectives
                   </div>
                 </div>
               ))}
