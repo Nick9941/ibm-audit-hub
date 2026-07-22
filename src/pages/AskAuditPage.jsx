@@ -5,7 +5,6 @@ function AskAuditPage() {
   return (
     <div className="library-page">
       <div className="library-header">
-        <Link to="/" className="back-button">← Back to Home</Link>
         <h1 className="library-title">Ask Audit</h1>
         <p className="library-subtitle">AI-powered audit assistant — coming soon</p>
       </div>

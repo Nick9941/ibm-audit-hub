@@ -25,6 +25,14 @@ const functionOrder = [
   { id: 'it',            label: 'Information Technology' },
 ]
 
+const fnIcons = {
+  finance:       '💼',
+  accounting:    '📊',
+  manufacturing: '⚙️',
+  marketing:     '📣',
+  it:            '🖥️',
+}
+
 function HomePage() {
   const [selectedFunction, setSelectedFunction] = useState('')
   const navigate = useNavigate()
@@ -37,12 +45,28 @@ function HomePage() {
     }
   }
 
+  // Aggregate totals for KPI strip
+  const totals = functionOrder.reduce(
+    (acc, { id }) => {
+      const fn = auditData[id]
+      if (!fn) return acc
+      const { programs, riskAreas, tests } = countStats(fn)
+      acc.programs  += programs
+      acc.riskAreas += riskAreas
+      acc.tests     += tests
+      return acc
+    },
+    { programs: 0, riskAreas: 0, tests: 0 }
+  )
+
   return (
     <div className="home-page">
+      {/* ── Hero ───────────────────────────────────── */}
       <div className="home-container">
         <h1 className="home-title">IBM Audit Hub</h1>
         <p className="home-subtitle">Navigate through business functions to explore comprehensive risk frameworks</p>
 
+        {/* ── Dropdown selector ──────────────────── */}
         <div className="function-selector">
           <label htmlFor="function-select" className="selector-label">
             Select Business Function
@@ -61,45 +85,91 @@ function HomePage() {
             <option value="it">Information Technology</option>
           </select>
         </div>
+      </div>
 
-        <div className="info-cards">
-          {functionOrder.map(({ id, label }) => {
-            const fn = auditData[id]
-            if (!fn) return null
-            const { programs, riskAreas, tests } = countStats(fn)
-            return (
-              <div
-                key={id}
-                className="info-card"
-                style={{ borderColor: fn.color, cursor: 'pointer' }}
-                onClick={() => navigate(`/function/${id}`)}
-              >
-                <h3>{label}</h3>
-                <p>{fn.description}</p>
-                <ul>
-                  <li>{programs} Program{programs !== 1 ? 's' : ''}</li>
-                  <li>{riskAreas} Risk Area{riskAreas !== 1 ? 's' : ''}</li>
-                  <li>{tests} Test Template{tests !== 1 ? 's' : ''}</li>
-                </ul>
+      {/* ── Body ───────────────────────────────────── */}
+      <div className="hp-body">
+
+        {/* KPI strip */}
+        <div className="hp-section">
+          <div className="hp-kpi-row">
+            <div className="hp-kpi-card">
+              <div className="hp-kpi-icon" style={{ background: '#eef3fb' }}>📁</div>
+              <div>
+                <div className="hp-kpi-value">{functionOrder.length}</div>
+                <div className="hp-kpi-label">Business Functions</div>
               </div>
-            )
-          })}
-        </div>
-
-        <div className="hierarchy-info">
-          <h2>5-Level Hierarchy</h2>
-          <div className="hierarchy-levels">
-            <div className="level">1. Program</div>
-            <div className="arrow">↓</div>
-            <div className="level">2. Risk Area</div>
-            <div className="arrow">↓</div>
-            <div className="level">3. Control Objective</div>
-            <div className="arrow">↓</div>
-            <div className="level">4. Control</div>
-            <div className="arrow">↓</div>
-            <div className="level">5. Test</div>
+            </div>
+            <div className="hp-kpi-card">
+              <div className="hp-kpi-icon" style={{ background: '#eef3fb' }}>📋</div>
+              <div>
+                <div className="hp-kpi-value">{totals.programs}</div>
+                <div className="hp-kpi-label">Audit Programs</div>
+              </div>
+            </div>
+            <div className="hp-kpi-card">
+              <div className="hp-kpi-icon" style={{ background: '#eef3fb' }}>⚠️</div>
+              <div>
+                <div className="hp-kpi-value">{totals.riskAreas}</div>
+                <div className="hp-kpi-label">Risk Areas</div>
+              </div>
+            </div>
+            <div className="hp-kpi-card">
+              <div className="hp-kpi-icon" style={{ background: '#eef3fb' }}>✅</div>
+              <div>
+                <div className="hp-kpi-value">{totals.tests}</div>
+                <div className="hp-kpi-label">Test Templates</div>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Function cards */}
+        <div className="hp-section">
+          <div className="hp-section-header">
+            <h2 className="hp-section-title">Business Functions</h2>
+          </div>
+          <div className="info-cards">
+            {functionOrder.map(({ id, label }) => {
+              const fn = auditData[id]
+              if (!fn) return null
+              const { programs, riskAreas, tests } = countStats(fn)
+              return (
+                <div
+                  key={id}
+                  className="info-card"
+                  style={{ borderColor: fn.color, cursor: 'pointer' }}
+                  onClick={() => navigate(`/function/${id}`)}
+                >
+                  <h3>{fnIcons[id]} {label}</h3>
+                  <p>{fn.description}</p>
+                  <ul>
+                    <li>{programs} Program{programs !== 1 ? 's' : ''}</li>
+                    <li>{riskAreas} Risk Area{riskAreas !== 1 ? 's' : ''}</li>
+                    <li>{tests} Test Template{tests !== 1 ? 's' : ''}</li>
+                  </ul>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Hierarchy */}
+        <div className="hp-section">
+          <div className="hierarchy-info">
+            <h2>4-Level Hierarchy</h2>
+            <div className="hierarchy-levels">
+              <div className="level">1. Program</div>
+              <div className="arrow">↓</div>
+              <div className="level">2. Risk Area</div>
+              <div className="arrow">↓</div>
+              <div className="level">3. Control &amp; Control Objective</div>
+              <div className="arrow">↓</div>
+              <div className="level">4. Test</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   )

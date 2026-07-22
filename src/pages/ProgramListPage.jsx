@@ -24,7 +24,6 @@ function ProgramListPage() {
   return (
     <div className="library-page">
       <div className="library-header">
-        <Link to="/" className="back-button">← Back to Home</Link>
         <h1 className="library-title">Program List</h1>
         <p className="library-subtitle">All audit programs across business functions</p>
         <div className="library-search-bar">

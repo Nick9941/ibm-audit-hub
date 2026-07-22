@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import FlowchartPage from './pages/FlowchartPage'
 import DetailPage from './pages/DetailPage'
@@ -39,14 +39,14 @@ function HeaderSearch() {
           out.push({ type: 'Program', name: p.name, path: `/function/${id}` })
         p.riskAreas.forEach(ra => {
           if (ra.name.toLowerCase().includes(q))
-            out.push({ type: 'Risk Area', name: ra.name, path: `/function/${id}` })
+            out.push({ type: 'Risk Area', name: ra.name, path: `/risk-library?q=${encodeURIComponent(ra.name)}` })
           ra.controlObjectives.forEach(co =>
             co.controls.forEach(ctrl => {
               if (ctrl.name.toLowerCase().includes(q))
-                out.push({ type: 'Control', name: ctrl.name, path: `/function/${id}` })
+                out.push({ type: 'Control', name: ctrl.name, path: `/test-library?q=${encodeURIComponent(ctrl.name)}` })
               ctrl.testTemplates.forEach(tt => {
                 if (tt.name.toLowerCase().includes(q))
-                  out.push({ type: 'Test', name: tt.name, path: `/function/${id}` })
+                  out.push({ type: 'Test', name: tt.name, path: `/test-library?q=${encodeURIComponent(tt.name)}` })
               })
             })
           )
@@ -99,7 +99,9 @@ function App() {
     <div className="app">
       <header className="site-header">
         <div className="site-header-left">
-          <img className="brand-logo" src={ibmLogo} alt="IBM" />
+          <Link to="/" className="brand-logo-link">
+            <img className="brand-logo" src={ibmLogo} alt="IBM — Home" />
+          </Link>
           <div className="brand-divider" />
           <span className="brand-text">Corporate Assurance & Advisory Services</span>
         </div>
