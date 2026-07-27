@@ -230,26 +230,42 @@ function FlowchartPage() {
                             <div className="flow-arrow-small">↓</div>
                           )}
 
-                          {/* Level 4: Test Templates */}
+                          {/* Level 4: Test Templates — branch horizontally when > 1 */}
                           {objective.controls.map(control => (
                             control.testTemplates.length > 0 && (
                               <div key={control.id} className="flow-sub-column">
                                 <div className="level-label-small">Level 4: Tests</div>
-                                <div className="test-templates-flow">
-                                  {control.testTemplates.map(template => (
-                                    <div
-                                      key={template.id}
-                                      className="flow-node test-template-node"
-                                      style={{ borderColor: functionData.color, cursor: template.pdfUrl ? 'pointer' : 'default' }}
-                                      onClick={() => openTestResource(template)}
-                                    >
-                                      {editMode && <DeleteBtn onClick={() => deleteTestTemplate(functionId, currentProgram.id, riskArea.id, objective.id, control.id, template.id, template.name)} />}
-                                      <strong>{template.name}</strong>
-                                      <p className="small-text">{template.description}</p>
-                                      <CommentLog nodeId={template.id} label="Test Comments" />
-                                    </div>
-                                  ))}
-                                </div>
+                                {control.testTemplates.length === 1 ? (
+                                  <div
+                                    className="flow-node test-template-node"
+                                    style={{ borderColor: functionData.color, cursor: control.testTemplates[0].pdfUrl ? 'pointer' : 'default' }}
+                                    onClick={() => openTestResource(control.testTemplates[0])}
+                                  >
+                                    {editMode && <DeleteBtn onClick={() => deleteTestTemplate(functionId, currentProgram.id, riskArea.id, objective.id, control.id, control.testTemplates[0].id, control.testTemplates[0].name)} />}
+                                    <strong>{control.testTemplates[0].name}</strong>
+                                    <p className="small-text">{control.testTemplates[0].description}</p>
+                                    <CommentLog nodeId={control.testTemplates[0].id} label="Test Comments" />
+                                  </div>
+                                ) : (
+                                  <div className="test-branch-row">
+                                    {control.testTemplates.map((template, idx) => (
+                                      <div key={template.id} className="test-branch-col">
+                                        <div className={`test-branch-connector ${idx === 0 ? 'first' : idx === control.testTemplates.length - 1 ? 'last' : 'mid'}`} />
+                                        <div className="flow-arrow-small">↓</div>
+                                        <div
+                                          className="flow-node test-template-node"
+                                          style={{ borderColor: functionData.color, cursor: template.pdfUrl ? 'pointer' : 'default' }}
+                                          onClick={() => openTestResource(template)}
+                                        >
+                                          {editMode && <DeleteBtn onClick={() => deleteTestTemplate(functionId, currentProgram.id, riskArea.id, objective.id, control.id, template.id, template.name)} />}
+                                          <strong>{template.name}</strong>
+                                          <p className="small-text">{template.description}</p>
+                                          <CommentLog nodeId={template.id} label="Test Comments" />
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
                             )
                           ))}

@@ -3,6 +3,14 @@ import { useEditData } from '../context/EditContext'
 
 const COMMENT_TYPES = ['Comment', 'Suggestion', 'Issue', 'Recommendation']
 
+const STATUSES = ['Open', 'In Progress', 'Resolved']
+
+const STATUS_COLORS = {
+  'Open':        { bg: '#fee2e2', text: '#b91c1c', border: '#fca5a5' },
+  'In Progress': { bg: '#fef9c3', text: '#92400e', border: '#fde68a' },
+  'Resolved':    { bg: '#dcfce7', text: '#15803d', border: '#86efac' },
+}
+
 const TYPE_COLORS = {
   Comment:        '#4f7ecf',
   Suggestion:     '#10b981',
@@ -20,8 +28,44 @@ function fmtDate(iso) {
     ' ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
 }
 
+function StatusPill({ status, onChange }) {
+  const s = STATUS_COLORS[status] || STATUS_COLORS['Open']
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div className="cmt-status-wrap">
+      <button
+        className="cmt-status-pill"
+        style={{ background: s.bg, color: s.text, borderColor: s.border }}
+        onClick={e => { e.stopPropagation(); setOpen(o => !o) }}
+        title="Change status"
+      >
+        {status}
+        <span className="cmt-status-chevron">▾</span>
+      </button>
+      {open && (
+        <div className="cmt-status-dropdown" onClick={e => e.stopPropagation()}>
+          {STATUSES.map(st => {
+            const sc = STATUS_COLORS[st]
+            return (
+              <button
+                key={st}
+                className="cmt-status-option"
+                style={{ background: sc.bg, color: sc.text, borderColor: sc.border }}
+                onClick={() => { onChange(st); setOpen(false) }}
+              >
+                {st}
+              </button>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function CommentBubble({ nodeId, comment, depth = 0 }) {
-  const { comments, addComment, editComment, deleteComment } = useEditData()
+  const { comments, addComment, editComment, deleteComment, updateCommentStatus } = useEditData()
   const [replying, setReplying] = useState(false)
   const [editing, setEditing] = useState(false)
   const [replyText, setReplyText] = useState('')
@@ -30,6 +74,7 @@ function CommentBubble({ nodeId, comment, depth = 0 }) {
   const [editText, setEditText] = useState(comment.text)
 
   const replies = (comments[nodeId] || []).filter(c => c.parentId === comment.id)
+  const status = comment.status || 'Open'
 
   function submitReply() {
     if (!replyText.trim()) return
@@ -45,7 +90,10 @@ function CommentBubble({ nodeId, comment, depth = 0 }) {
   }
 
   return (
-    <div className={`cmt-bubble ${depth > 0 ? 'cmt-reply' : ''}`}>
+    <div
+      className={`cmt-bubble ${depth > 0 ? 'cmt-reply' : ''}`}
+      style={{ borderLeftColor: depth === 0 ? STATUS_COLORS[status]?.border : undefined }}
+    >
       <div className="cmt-header">
         <div className="cmt-avatar" style={{ background: TYPE_COLORS[comment.type] }}>
           {initials(comment.author)}
@@ -58,6 +106,16 @@ function CommentBubble({ nodeId, comment, depth = 0 }) {
           <span className="cmt-time">{fmtDate(comment.at)}{comment.edited ? ' · edited' : ''}</span>
         </div>
       </div>
+
+      {/* Status pill — only on root comments */}
+      {depth === 0 && (
+        <div className="cmt-status-row">
+          <StatusPill
+            status={status}
+            onChange={st => updateCommentStatus(nodeId, comment.id, st)}
+          />
+        </div>
+      )}
 
       {editing ? (
         <div className="cmt-edit-form">
@@ -123,14 +181,27 @@ function CommentBubble({ nodeId, comment, depth = 0 }) {
 }
 
 function CommentLog({ nodeId, label }) {
-  const { comments, addComment, getCommentCount } = useEditData()
+  const { comments, addComment, getCommentCount, getOpenIssueCount } = useEditData()
   const [open, setOpen] = useState(false)
   const [author, setAuthor] = useState('Auditor')
   const [text, setText] = useState('')
   const [type, setType] = useState('Comment')
+  const [statusFilter, setStatusFilter] = useState('All')
 
-  const rootComments = (comments[nodeId] || []).filter(c => !c.parentId)
+  const allRootComments = (comments[nodeId] || []).filter(c => !c.parentId)
+  const rootComments = statusFilter === 'All'
+    ? allRootComments
+    : allRootComments.filter(c => (c.status || 'Open') === statusFilter)
+
   const count = getCommentCount(nodeId)
+  const openCount = getOpenIssueCount(nodeId)
+
+  // Status summary counts
+  const statusCounts = {
+    Open:        allRootComments.filter(c => (c.status || 'Open') === 'Open').length,
+    'In Progress': allRootComments.filter(c => (c.status || 'Open') === 'In Progress').length,
+    Resolved:    allRootComments.filter(c => (c.status || 'Open') === 'Resolved').length,
+  }
 
   function submit() {
     if (!text.trim()) return
@@ -139,20 +210,51 @@ function CommentLog({ nodeId, label }) {
   }
 
   return (
-    <div className="cmt-log">
-      <button
-        className="cmt-toggle-btn"
-        onClick={e => { e.stopPropagation(); setOpen(o => !o) }}
-      >
-        💬 {count > 0 ? count : ''} {label || 'Comments'}
-        {count > 0 && <span className="cmt-count-badge">{count}</span>}
-      </button>
+    <div className="cmt-log" onClick={e => e.stopPropagation()}>
+      <div className="cmt-toggle-row">
+        <span className="cmt-toggle-label">
+          Comments
+          {count > 0 && <span className="cmt-count-badge">{count}</span>}
+          {openCount > 0 && <span className="cmt-open-badge">{openCount} open</span>}
+        </span>
+        <button
+          className={`cmt-toggle-plus ${open ? 'active' : ''}`}
+          onClick={e => { e.stopPropagation(); setOpen(o => !o) }}
+          title={open ? 'Collapse comments' : 'Expand comments'}
+        >{open ? '−' : '+'}</button>
+      </div>
 
       {open && (
-        <div className="cmt-panel" onClick={e => e.stopPropagation()}>
-          <div className="cmt-panel-header">
-            <span>{label || 'Comment Log'}</span>
-            <button className="cmt-panel-close" onClick={() => setOpen(false)}>✕</button>
+        <div className="cmt-panel">
+          {/* Status filter bar */}
+          {allRootComments.length > 0 && (
+            <div className="cmt-status-bar">
+              {['All', ...STATUSES].map(st => {
+                const sc = st !== 'All' ? STATUS_COLORS[st] : null
+                const cnt = st === 'All' ? allRootComments.length : statusCounts[st]
+                return (
+                  <button
+                    key={st}
+                    className={`cmt-status-filter-btn${statusFilter === st ? ' active' : ''}`}
+                    style={sc && statusFilter === st ? { background: sc.bg, color: sc.text, borderColor: sc.border } : {}}
+                    onClick={() => setStatusFilter(st)}
+                  >
+                    {st} <span className="cmt-status-filter-count">{cnt}</span>
+                  </button>
+                )
+              })}
+            </div>
+          )}
+
+          <div className="cmt-list">
+            {rootComments.length === 0 && (
+              <p className="cmt-empty">
+                {statusFilter !== 'All' ? `No ${statusFilter.toLowerCase()} comments.` : 'No comments yet.'}
+              </p>
+            )}
+            {rootComments.map(c => (
+              <CommentBubble key={c.id} nodeId={nodeId} comment={c} />
+            ))}
           </div>
 
           <div className="cmt-new-form">
@@ -169,21 +271,12 @@ function CommentLog({ nodeId, label }) {
             </div>
             <textarea
               className="cmt-textarea"
-              placeholder="Add a comment, suggestion, issue or recommendation..."
+              placeholder="Add a comment..."
               value={text}
               onChange={e => setText(e.target.value)}
               rows={2}
             />
             <button className="cmt-submit-btn" onClick={submit}>Post</button>
-          </div>
-
-          <div className="cmt-list">
-            {rootComments.length === 0 && (
-              <p className="cmt-empty">No comments yet.</p>
-            )}
-            {rootComments.map(c => (
-              <CommentBubble key={c.id} nodeId={nodeId} comment={c} />
-            ))}
           </div>
         </div>
       )}

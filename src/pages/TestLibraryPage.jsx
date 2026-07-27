@@ -30,7 +30,7 @@ function getGroupPrefix(testName) {
 }
 
 function TestLibraryPage() {
-  const { data, updateTestTemplate } = useEditData()
+  const { data, updateTestTemplate, linkSimilarTest, removeSimilarTest } = useEditData()
 
   const [searchParams] = useSearchParams()
 
@@ -54,6 +54,14 @@ function TestLibraryPage() {
   const [newSource, setNewSource] = useState('')
   const [addingEvidence, setAddingEvidence] = useState(false)
   const [newEvidence, setNewEvidence] = useState('')
+
+  // Similar test picker
+  const [showPicker, setShowPicker] = useState(false)
+  const [pickerQuery, setPickerQuery] = useState('')
+
+  // Editing "why it's similar" — keyed by sim.id
+  const [editingSimilarity, setEditingSimilarity] = useState(null) // sim.id being edited
+  const [similarityDraft, setSimilarityDraft] = useState('')
 
   const allTests = Object.entries(data).flatMap(([functionId, functionData]) =>
     functionData.programs.flatMap(program =>
@@ -119,6 +127,58 @@ function TestLibraryPage() {
   function toggleSimilar(id) {
     setExpandedSimilar(prev => prev === id ? null : id)
   }
+
+  function openPicker() { setShowPicker(true); setPickerQuery('') }
+  function closePicker() { setShowPicker(false); setPickerQuery('') }
+
+  function handleLinkTest(targetTest) {
+    if (!drawerTest) return
+    linkSimilarTest(drawerTest, targetTest)
+    closePicker()
+  }
+
+  function saveSimilarity(sim) {
+    if (!drawerTest || !similarityDraft.trim()) return
+    const updated = (drawerTest.similarTests || []).map(s =>
+      s.id === sim.id ? { ...s, similarity: similarityDraft.trim() } : s
+    )
+    updateTestTemplate(
+      drawerTest.functionId, drawerTest.programId, drawerTest.riskAreaId,
+      drawerTest.objectiveId, drawerTest.controlId, drawerTest.id,
+      { similarTests: updated }
+    )
+    setEditingSimilarity(null)
+    setSimilarityDraft('')
+  }
+
+  function handleUnlinkTest(sim) {
+    if (!drawerTest) return
+    // Extract the original test id from the sim id if it was a manual link
+    const linkedTestId = sim.id.startsWith('sim-linked-') ? sim.id.replace('sim-linked-', '') : null
+    removeSimilarTest(drawerTest, sim.id, linkedTestId)
+  }
+
+  // Tests available to link: exclude self and already-linked
+  const alreadyLinkedIds = new Set([
+    drawerTest?.id,
+    ...(drawerTest?.similarTests?.map(s => s.id.replace('sim-linked-', '')) ?? []),
+    ...(drawerTest?.similarTests?.map(s => {
+      const t = allTests.find(t => t.name === s.name && t.programName === s.program)
+      return t?.id
+    }).filter(Boolean) ?? []),
+  ])
+
+  const pq = pickerQuery.toLowerCase()
+  const pickerTests = allTests.filter(t =>
+    t.id !== drawerTest?.id &&
+    !alreadyLinkedIds.has(t.id) &&
+    (
+      t.name.toLowerCase().includes(pq) ||
+      t.programName.toLowerCase().includes(pq) ||
+      t.functionName.toLowerCase().includes(pq) ||
+      t.description.toLowerCase().includes(pq)
+    )
+  )
 
   function saveStep() {
     if (!newStep.trim() || !drawerTest) return
@@ -499,25 +559,56 @@ function TestLibraryPage() {
                             <span className="test-drawer-similar-name">{sim.name}</span>
                             <span className="test-drawer-similar-program">{sim.program}</span>
                           </div>
-                          <button
-                            className={`test-drawer-similar-btn${expandedSimilar === sim.id ? ' open' : ''}`}
-                            onClick={() => toggleSimilar(sim.id)}
-                            aria-expanded={expandedSimilar === sim.id}
-                            aria-label="Show overview"
-                            style={{ borderColor: drawerTest.functionColor, color: drawerTest.functionColor }}
-                          >
-                            {expandedSimilar === sim.id ? '−' : '+'}
-                          </button>
+                          <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
+                            <button
+                              className={`test-drawer-similar-btn${expandedSimilar === sim.id ? ' open' : ''}`}
+                              onClick={() => toggleSimilar(sim.id)}
+                              aria-expanded={expandedSimilar === sim.id}
+                              aria-label="Show overview"
+                              style={{ borderColor: drawerTest.functionColor, color: drawerTest.functionColor }}
+                            >
+                              {expandedSimilar === sim.id ? '−' : '+'}
+                            </button>
+                            <button
+                              className="test-drawer-unlink-btn"
+                              onClick={() => handleUnlinkTest(sim)}
+                              title="Remove link"
+                              aria-label="Remove similar test link"
+                            >✕</button>
+                          </div>
                         </div>
                         {expandedSimilar === sim.id && (
                           <div className="test-drawer-similar-expanded">
                             <p className="test-drawer-similar-overview">{sim.overview}</p>
-                            {sim.similarity && (
-                              <div className="test-drawer-similar-similarity">
+                            <div className="test-drawer-similar-similarity">
+                              <div className="test-drawer-similarity-label-row">
                                 <span className="test-drawer-similar-similarity-label">Why it's similar</span>
-                                <p>{sim.similarity}</p>
+                                {editingSimilarity !== sim.id && (
+                                  <button
+                                    className="test-drawer-similarity-edit-btn"
+                                    onClick={() => { setEditingSimilarity(sim.id); setSimilarityDraft(sim.similarity || '') }}
+                                    title="Edit"
+                                  >✏️</button>
+                                )}
                               </div>
-                            )}
+                              {editingSimilarity === sim.id ? (
+                                <>
+                                  <textarea
+                                    className="test-drawer-similarity-textarea"
+                                    value={similarityDraft}
+                                    onChange={e => setSimilarityDraft(e.target.value)}
+                                    rows={3}
+                                    autoFocus
+                                  />
+                                  <div className="test-drawer-add-row" style={{ marginTop: '0.4rem' }}>
+                                    <button className="test-drawer-add-save" onClick={() => saveSimilarity(sim)} style={{ background: drawerTest.functionColor }}>Save</button>
+                                    <button className="test-drawer-add-cancel" onClick={() => { setEditingSimilarity(null); setSimilarityDraft('') }}>✕</button>
+                                  </div>
+                                </>
+                              ) : (
+                                <p>{sim.similarity || <em style={{ color: '#9ca3af' }}>No description yet — click ✏️ to add one.</em>}</p>
+                              )}
+                            </div>
                             <button
                               className="test-drawer-similar-link test-drawer-similar-nav"
                               onClick={() => navigateToSimilar(sim)}
@@ -531,13 +622,69 @@ function TestLibraryPage() {
                     ))}
                   </ul>
                 )}
-                <p className="test-drawer-similar-empty">
-                  {!drawerTest.similarTests?.length && 'No similar tests linked yet.'}
-                </p>
+                {!drawerTest.similarTests?.length && (
+                  <p className="test-drawer-similar-empty">No similar tests linked yet.</p>
+                )}
+                <button
+                  className="test-drawer-add-btn"
+                  onClick={openPicker}
+                  style={{ color: drawerTest.functionColor, borderColor: drawerTest.functionColor }}
+                >
+                  + Link Similar Test
+                </button>
               </section>
 
             </div>
           </aside>
+        </>
+      )}
+
+      {/* ── Similar Test Picker Modal ── */}
+      {showPicker && drawerTest && (
+        <>
+          <div className="sim-picker-overlay" onClick={closePicker} />
+          <div className="sim-picker-modal" role="dialog" aria-modal="true" aria-label="Link Similar Test">
+            <div className="sim-picker-header">
+              <div>
+                <h2 className="sim-picker-title">Link Similar Test</h2>
+                <p className="sim-picker-sub">Linking to <strong>{drawerTest.name}</strong> — the link will appear on both tests automatically.</p>
+              </div>
+              <button className="sim-picker-close" onClick={closePicker} aria-label="Close">✕</button>
+            </div>
+            <div className="sim-picker-search-wrap">
+              <input
+                className="sim-picker-search"
+                placeholder="Search by name, program, or function…"
+                value={pickerQuery}
+                onChange={e => setPickerQuery(e.target.value)}
+                autoFocus
+              />
+            </div>
+            <div className="sim-picker-list">
+              {pickerTests.length === 0 && (
+                <p className="sim-picker-empty">
+                  {pickerQuery ? `No tests match "${pickerQuery}"` : 'All tests are already linked.'}
+                </p>
+              )}
+              {pickerTests.map(t => (
+                <div key={t.id} className="sim-picker-item">
+                  <div className="sim-picker-item-info">
+                    <span className="sim-picker-item-tag" style={{ background: t.functionColor }}>{t.functionName}</span>
+                    <span className="sim-picker-item-program">{t.programName}</span>
+                    <span className="sim-picker-item-name">{t.name}</span>
+                    <span className="sim-picker-item-desc">{t.description}</span>
+                  </div>
+                  <button
+                    className="sim-picker-link-btn"
+                    onClick={() => handleLinkTest(t)}
+                    style={{ background: drawerTest.functionColor }}
+                  >
+                    Link
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         </>
       )}
     </div>

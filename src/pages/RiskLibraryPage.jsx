@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { useEditData } from '../context/EditContext'
 
 function RiskLibraryPage() {
-  const { data, updateRiskArea, addControlObjective } = useEditData()
+  const { data, updateRiskArea, addControlObjective, linkSimilarRisk, removeSimilarRisk, updateSimilarRiskNote } = useEditData()
   const [searchParams] = useSearchParams()
 
   const [query, setQuery] = useState(() => searchParams.get('q') || '')
@@ -24,6 +24,14 @@ function RiskLibraryPage() {
   const [newObjName, setNewObjName] = useState('')
   const [newObjDesc, setNewObjDesc] = useState('')
 
+  // Editing "why it's similar" — keyed by sim.id
+  const [editingSimilarity, setEditingSimilarity] = useState(null)
+  const [similarityDraft, setSimilarityDraft] = useState('')
+
+  // Risk picker modal
+  const [showPicker, setShowPicker] = useState(false)
+  const [pickerQuery, setPickerQuery] = useState('')
+
   const allRisks = Object.entries(data).flatMap(([functionId, functionData]) =>
     functionData.programs.flatMap(program =>
       program.riskAreas.map(riskArea => ({
@@ -42,10 +50,19 @@ function RiskLibraryPage() {
   const drawerRiskId = drawerStack[drawerStack.length - 1] ?? null
   const drawerRisk = drawerRiskId ? allRisks.find(r => r.id === drawerRiskId) ?? null : null
 
-  // Similar risks: same name, different program
-  const similarRisks = drawerRisk
-    ? allRisks.filter(r => r.name === drawerRisk.name && r.id !== drawerRisk.id)
+  // Merge auto-detected (same name) + manually linked, deduplicated
+  const linkedSimilarRisks = drawerRisk?.linkedSimilarRisks || []
+  const linkedRiskIds = new Set(linkedSimilarRisks.map(s => s.riskId))
+
+  const autoSimilarRisks = drawerRisk
+    ? allRisks.filter(r => r.name === drawerRisk.name && r.id !== drawerRisk.id && !linkedRiskIds.has(r.id))
     : []
+
+  // Combined list — manual links first (have full similarity field), then auto
+  const allSimilarRisks = [
+    ...linkedSimilarRisks.map(s => ({ ...s, isLinked: true })),
+    ...autoSimilarRisks.map(r => ({ id: `auto-${r.id}`, riskId: r.id, name: r.name, programName: r.programName, functionName: r.functionName, description: r.description, similarity: '', isLinked: false, isAuto: true, _risk: r })),
+  ]
 
   const q = query.toLowerCase()
   const filtered = allRisks.filter(r =>
@@ -58,6 +75,7 @@ function RiskLibraryPage() {
   function resetEditState() {
     setEditingDesc(false); setDraftDesc('')
     setAddingObj(false); setNewObjName(''); setNewObjDesc('')
+    setEditingSimilarity(null); setSimilarityDraft('')
   }
 
   function openDrawer(risk, e) {
@@ -73,8 +91,10 @@ function RiskLibraryPage() {
     resetEditState()
   }
 
-  function navigateToSimilar(risk) {
-    setDrawerStack(prev => [...prev, risk.id])
+  function navigateToSimilar(sim) {
+    const target = sim._risk || allRisks.find(r => r.id === sim.riskId)
+    if (!target) return
+    setDrawerStack(prev => [...prev, target.id])
     setExpandedSimilar(null)
     resetEditState()
   }
@@ -106,6 +126,54 @@ function RiskLibraryPage() {
     const updated = drawerRisk.controlObjectives.filter(o => o.id !== objId)
     updateRiskArea(drawerRisk.functionId, drawerRisk.programId, drawerRisk.id, { controlObjectives: updated })
   }
+
+  function saveSimilarityNote(sim) {
+    if (!drawerRisk || !similarityDraft.trim()) return
+    if (sim.isLinked) {
+      updateSimilarRiskNote(drawerRisk, sim.id, similarityDraft.trim())
+    } else {
+      // Auto-detected: convert to a manual link first with the note
+      linkSimilarRisk(drawerRisk, sim._risk)
+      // Note will be updated after linking — we set it immediately via a separate call
+      // The link will appear in linkedSimilarRisks next render; write note there
+      const newSimId = `sim-risk-${sim.riskId}`
+      updateSimilarRiskNote(drawerRisk, newSimId, similarityDraft.trim())
+    }
+    setEditingSimilarity(null)
+    setSimilarityDraft('')
+  }
+
+  function handleUnlinkRisk(sim) {
+    if (!drawerRisk || !sim.isLinked) return
+    removeSimilarRisk(drawerRisk, sim.id, sim.riskId)
+  }
+
+  function openPicker() { setShowPicker(true); setPickerQuery('') }
+  function closePicker() { setShowPicker(false); setPickerQuery('') }
+
+  function handleLinkRisk(targetRisk) {
+    if (!drawerRisk) return
+    linkSimilarRisk(drawerRisk, targetRisk)
+    closePicker()
+  }
+
+  // Risks available to pick — exclude self and already shown
+  const shownRiskIds = new Set([
+    drawerRisk?.id,
+    ...linkedSimilarRisks.map(s => s.riskId),
+    ...autoSimilarRisks.map(r => r.id),
+  ])
+
+  const pq = pickerQuery.toLowerCase()
+  const pickerRisks = allRisks.filter(r =>
+    !shownRiskIds.has(r.id) &&
+    (
+      r.name.toLowerCase().includes(pq) ||
+      r.programName.toLowerCase().includes(pq) ||
+      r.functionName.toLowerCase().includes(pq) ||
+      r.description.toLowerCase().includes(pq)
+    )
+  )
 
   return (
     <div className="library-page">
@@ -290,34 +358,73 @@ function RiskLibraryPage() {
                 <h3 className="test-drawer-section-title" style={{ color: drawerRisk.functionColor }}>
                   <span className="test-drawer-section-icon">🔗</span>
                   Similar Risks
-                  {similarRisks.length > 0 && (
+                  {allSimilarRisks.length > 0 && (
                     <span className="test-drawer-count" style={{ background: drawerRisk.functionColor }}>
-                      {similarRisks.length}
+                      {allSimilarRisks.length}
                     </span>
                   )}
                 </h3>
-                {similarRisks.length > 0 ? (
+                {allSimilarRisks.length > 0 && (
                   <ul className="test-drawer-similar-list">
-                    {similarRisks.map(sim => (
+                    {allSimilarRisks.map(sim => (
                       <li key={sim.id} className="test-drawer-similar-item">
                         <div className="test-drawer-similar-row">
                           <div className="test-drawer-similar-info">
                             <span className="test-drawer-similar-name">{sim.name}</span>
                             <span className="test-drawer-similar-program">{sim.programName}</span>
                           </div>
-                          <button
-                            className={`test-drawer-similar-btn${expandedSimilar === sim.id ? ' open' : ''}`}
-                            onClick={() => toggleSimilar(sim.id)}
-                            aria-expanded={expandedSimilar === sim.id}
-                            aria-label="Show details"
-                            style={{ borderColor: drawerRisk.functionColor, color: drawerRisk.functionColor }}
-                          >
-                            {expandedSimilar === sim.id ? '−' : '+'}
-                          </button>
+                          <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
+                            <button
+                              className={`test-drawer-similar-btn${expandedSimilar === sim.id ? ' open' : ''}`}
+                              onClick={() => toggleSimilar(sim.id)}
+                              aria-expanded={expandedSimilar === sim.id}
+                              aria-label="Show details"
+                              style={{ borderColor: drawerRisk.functionColor, color: drawerRisk.functionColor }}
+                            >
+                              {expandedSimilar === sim.id ? '−' : '+'}
+                            </button>
+                            {sim.isLinked && (
+                              <button
+                                className="test-drawer-unlink-btn"
+                                onClick={() => handleUnlinkRisk(sim)}
+                                title="Remove link"
+                                aria-label="Remove similar risk link"
+                              >✕</button>
+                            )}
+                          </div>
                         </div>
                         {expandedSimilar === sim.id && (
                           <div className="test-drawer-similar-expanded">
                             <p className="test-drawer-similar-overview">{sim.description}</p>
+                            <div className="test-drawer-similar-similarity">
+                              <div className="test-drawer-similarity-label-row">
+                                <span className="test-drawer-similar-similarity-label">Why it's similar</span>
+                                {editingSimilarity !== sim.id && (
+                                  <button
+                                    className="test-drawer-similarity-edit-btn"
+                                    onClick={() => { setEditingSimilarity(sim.id); setSimilarityDraft(sim.similarity || '') }}
+                                    title="Edit"
+                                  >✏️</button>
+                                )}
+                              </div>
+                              {editingSimilarity === sim.id ? (
+                                <>
+                                  <textarea
+                                    className="test-drawer-similarity-textarea"
+                                    value={similarityDraft}
+                                    onChange={e => setSimilarityDraft(e.target.value)}
+                                    rows={3}
+                                    autoFocus
+                                  />
+                                  <div className="test-drawer-add-row" style={{ marginTop: '0.4rem' }}>
+                                    <button className="test-drawer-add-save" onClick={() => saveSimilarityNote(sim)} style={{ background: drawerRisk.functionColor }}>Save</button>
+                                    <button className="test-drawer-add-cancel" onClick={() => { setEditingSimilarity(null); setSimilarityDraft('') }}>✕</button>
+                                  </div>
+                                </>
+                              ) : (
+                                <p>{sim.similarity || <em style={{ color: '#9ca3af' }}>No description yet — click ✏️ to add one.</em>}</p>
+                              )}
+                            </div>
                             <button
                               className="test-drawer-similar-link test-drawer-similar-nav"
                               onClick={() => navigateToSimilar(sim)}
@@ -330,13 +437,70 @@ function RiskLibraryPage() {
                       </li>
                     ))}
                   </ul>
-                ) : (
-                  <p className="test-drawer-similar-empty">No similar risks found in other programs.</p>
                 )}
+                {allSimilarRisks.length === 0 && (
+                  <p className="test-drawer-similar-empty">No similar risks linked yet.</p>
+                )}
+                <button
+                  className="test-drawer-add-btn"
+                  onClick={openPicker}
+                  style={{ color: drawerRisk.functionColor, borderColor: drawerRisk.functionColor }}
+                >
+                  + Link Similar Risk
+                </button>
               </section>
 
             </div>
           </aside>
+        </>
+      )}
+
+      {/* ── Risk Picker Modal ── */}
+      {showPicker && drawerRisk && (
+        <>
+          <div className="sim-picker-overlay" onClick={closePicker} />
+          <div className="sim-picker-modal" role="dialog" aria-modal="true" aria-label="Link Similar Risk">
+            <div className="sim-picker-header">
+              <div>
+                <h2 className="sim-picker-title">Link Similar Risk</h2>
+                <p className="sim-picker-sub">Linking to <strong>{drawerRisk.name}</strong> — the link will appear on both risks automatically.</p>
+              </div>
+              <button className="sim-picker-close" onClick={closePicker} aria-label="Close">✕</button>
+            </div>
+            <div className="sim-picker-search-wrap">
+              <input
+                className="sim-picker-search"
+                placeholder="Search by name, program, or function…"
+                value={pickerQuery}
+                onChange={e => setPickerQuery(e.target.value)}
+                autoFocus
+              />
+            </div>
+            <div className="sim-picker-list">
+              {pickerRisks.length === 0 && (
+                <p className="sim-picker-empty">
+                  {pickerQuery ? `No risks match "${pickerQuery}"` : 'All risks are already linked.'}
+                </p>
+              )}
+              {pickerRisks.map(r => (
+                <div key={r.id} className="sim-picker-item">
+                  <div className="sim-picker-item-info">
+                    <span className="sim-picker-item-tag" style={{ background: r.functionColor }}>{r.functionName}</span>
+                    <span className="sim-picker-item-program">{r.programName}</span>
+                    <span className="sim-picker-item-name">{r.name}</span>
+                    <span className="sim-picker-item-desc">{r.description}</span>
+                  </div>
+                  <button
+                    className="sim-picker-link-btn"
+                    onClick={() => handleLinkRisk(r)}
+                    style={{ background: drawerRisk.functionColor }}
+                  >
+                    Link
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         </>
       )}
     </div>
