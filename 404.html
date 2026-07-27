@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // GitHub Pages SPA redirect — sends unknown paths back to index.html
+      // Encodes the path+query+hash into a ?p= query param, then index.html restores it.
+      var l = window.location;
+      var base = '/ibm-audit-hub';
+      var path = l.pathname.slice(base.length) || '/';
+      var redirect = l.protocol + '//' + l.hostname +
+        (l.port ? ':' + l.port : '') +
+        base + '/?p=' + encodeURIComponent(path + l.search + l.hash);
+      l.replace(redirect);
+    </script>
+  </head>
+  <body></body>
+</html>
