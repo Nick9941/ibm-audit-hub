@@ -70,191 +70,13 @@ function ra(id, name, desc, objectives) {
 
 export const auditData = {
   // ─────────────────────────────────────────────
-  // FINANCE
+  // CHQ CONTROLLER
   // ─────────────────────────────────────────────
-  finance: {
-    name: "Finance",
-    description: "Financial operations, treasury, tax, and risk management",
+  chq_controller: {
+    name: "CHQ Controller",
+    description: "General ledger close, accounting consolidation, fixed assets, intercompany accounting, IBM financing accounting, and cost accounting",
     color: "#3b82f6",
-    pdfUrl: PDF.treasury,
-    programs: [
-      {
-        id: "fin-prog-1",
-        name: "Treasury Operations",
-        description: "Cash management, investments, foreign exchange, and bank guarantees",
-        pdfUrl: PDF.treasury,
-        riskAreas: [
-          ra("fin-p1-ra-1","Cash Management and Forecast","Risks related to cash flow forecasting and bank reconciliations",[
-            co("fin-p1-ra-1","Cash Management","Ensure cash accounts are managed, forecast accurately, and reconciled timely","Cash Flow Forecasting","Verify treasury cash forecasting process avoids overdrafts and optimises deployment","CM002.P – Cash Flow Forecasting","Compare cash projections with actual results and review overdraft prevention controls",PDF.treasury + "#page=19")
-          ]),
-          ra("fin-p1-ra-2","Investment and Borrowing","Risks related to investment portfolio and borrowing management",[
-            co("fin-p1-ra-2","Investment Portfolio","Ensure investment transactions are authorised and compliant with corporate policy","Valuation and Control of Portfolio","Verify investment portfolio is properly valued and controlled","IP001.P – Portfolio Valuation","Review investment valuations, authorisations, and policy compliance",PDF.treasury + "#page=27")
-          ]),
-          ra("fin-p1-ra-3","Foreign Exchange and Hedging","Risks related to FX transactions and derivative instruments",[
-            co("fin-p1-ra-3","Foreign Exchange Management","Ensure FX transactions are authorised, executed at competitive rates, and recorded accurately","Foreign Exchange Transactions","Review FX transactions for proper authorisation and accurate ledger recording","FX001.P – FX Transactions","Test sample of FX transactions for authorisation, rate accuracy, and timely recording",PDF.treasury + "#page=40")
-          ]),
-          ra("fin-p1-ra-4","Bank Guarantees","Risks related to issuance and management of bank guarantees",[
-            co("fin-p1-ra-4","Bank Guarantees","Ensure bank guarantees are properly authorised and tracked","Bank Guarantees","Validate bank guarantee issuance process and management reporting","BG001.P – Bank Guarantees","Review sample of bank guarantees for proper approval, documentation, and monitoring",PDF.treasury + "#page=63")
-          ]),
-          ra("fin-p1-ra-5","Counterparty Limits","Risks related to counterparty credit exposure",[
-            co("fin-p1-ra-5","Counterparty Risk","Ensure counterparty credit limits are established, monitored, and enforced","Credit Risk Management Reports","Determine adequacy of controls through management reports such as daily activity reports","CR001.P – Counterparty Limits","Review counterparty limit reports, breaches, and management response actions",PDF.treasury + "#page=54")
-          ]),
-          ra("fin-p1-ra-6","Disbursements, Manual Payments and Factoring","Risks related to wire transfers, manual payments, and factoring arrangements",
-            [
-              {
-                id: "fin-p1-ra-6-co-1",
-                name: "Disbursements, Manual Payments and Factoring",
-                description: "Ensure disbursements, manual payments, and factoring are properly authorised, documented, and recorded.",
-                pdfUrl: PDF.treasury + "#page=45",
-                controls: [
-                  { id: "fin-p1-ra-6-ctrl-1", name: "Disbursement and Manual Payment Controls", description: "Verify wire transfers and manual payments are authorised and recorded accurately", pdfUrl: PDF.treasury + "#page=45", testTemplates: [
-                    { id: "fin-p1-ra-6-tt-1", name: "CM003.S – Wire Transfer Controls", description: "Review wire transfer authorisation and segregation of duties", pdfUrl: PDF.treasury + "#page=45", steps: [] },
-                    { id: "fin-p1-ra-6-tt-2", name: "CM005.S – Manual Payment Controls", description: "Review manual payment process for proper approval and documentation", pdfUrl: PDF.treasury + "#page=47", steps: [] },
-                    { id: "fin-p1-ra-6-tt-3", name: "CM007.S – Factoring Arrangements", description: "Verify factoring arrangements are properly authorised and recorded", pdfUrl: PDF.treasury + "#page=49", steps: [] },
-                    { id: "fin-p1-ra-6-tt-4", name: "IT001.P – IT Controls for Payments", description: "Review IT application controls supporting disbursement processing", pdfUrl: PDF.treasury + "#page=51", steps: [] },
-                    { id: "fin-p1-ra-6-tt-5", name: "SR001.P – Systems Reconciliation", description: "Verify payment system reconciliations are performed timely and completely", pdfUrl: PDF.treasury + "#page=52", steps: [] },
-                  ]}
-                ]
-              }
-            ]
-          ),
-          ra("fin-p1-ra-7","Bank Administration, Data Protection and Bank Fees","Risks related to bank account administration, fee accuracy, and data security",[
-            {
-              id: "fin-p1-ra-7-co-1",
-              name: "Bank Administration and Data Protection",
-              description: "Ensure bank accounts are properly administered, fees are reviewed for accuracy, and banking data is protected.",
-              pdfUrl: PDF.treasury + "#page=33",
-              controls: [
-                { id: "fin-p1-ra-7-ctrl-1", name: "Bank Account Administration Controls", description: "Verify bank accounts are set up with proper authorisation and access controls", pdfUrl: PDF.treasury + "#page=33", testTemplates: [
-                  { id: "fin-p1-ra-7-tt-1", name: "CM001.P – Bank Account Administration", description: "Review bank account opening, closing, and signatory controls", pdfUrl: PDF.treasury + "#page=33", steps: [] },
-                  { id: "fin-p1-ra-7-tt-2", name: "IP003.P – Data Protection", description: "Verify sensitive banking data is protected per IBM data privacy guidelines", pdfUrl: PDF.treasury + "#page=35", steps: [] },
-                ]}
-              ]
-            }
-          ]),
-          ra("fin-p1-ra-8","Acquisitions","Risks related to cash and treasury controls for acquired entities",[
-            co("fin-p1-ra-8","Acquisition Integration Controls","Verify treasury controls are extended to acquired entities in a timely and complete manner","Acquisition Cash Controls","Review integration of acquired entity bank accounts and treasury systems","AI001.P – Acquisition Integration","Verify acquired entity treasury processes are integrated per IBM requirements with proper oversight",PDF.treasury + "#page=67")
-          ]),
-          ra("fin-p1-ra-9","Accounting Reconciliations","Risks related to treasury account reconciliation accuracy and timeliness",[
-            co("fin-p1-ra-9","Treasury Reconciliations","Ensure all treasury accounts are reconciled on a timely basis with appropriate management oversight","Accounting Reconciliation Controls","Review treasury reconciliation process and management approval","CM004.P – Treasury Reconciliations","Select sample of treasury account reconciliations and verify timeliness, completeness, and management approval",PDF.treasury + "#page=30")
-          ]),
-          {
-            id: "fin-p1-ra-10",
-            name: "Cybersecurity and Payment Systems",
-            description: "Risks related to cybersecurity controls protecting treasury and payment systems",
-            controlObjectives: [
-              {
-                id: "fin-p1-ra-10-co-1",
-                name: "Cybersecurity and Payment Systems",
-                description: "Ensure payment systems are protected against cyber threats and access is appropriately controlled.",
-                pdfUrl: PDF.treasury + "#page=56",
-                controls: [
-                  { id: "fin-p1-ra-10-ctrl-1", name: "Cybersecurity Controls for Treasury", description: "Verify cybersecurity controls protect treasury payment systems", pdfUrl: PDF.treasury + "#page=56", testTemplates: [
-                    { id: "fin-p1-ra-10-tt-1", name: "CM001.P – Cybersecurity Access Controls", description: "Review access management controls for treasury systems and payment platforms", pdfUrl: PDF.treasury + "#page=56", steps: [] },
-                    { id: "fin-p1-ra-10-tt-2", name: "CM003.S – Payment System Security", description: "Verify payment system security controls and incident response procedures", pdfUrl: PDF.treasury + "#page=58", steps: [] },
-                  ]}
-                ]
-              }
-            ]
-          },
-          ra("fin-p1-ra-11","Business Continuity","Risks related to treasury operations continuity during disruption",[
-            co("fin-p1-ra-11","Business Continuity Planning","Ensure treasury has a documented and tested business continuity plan","Business Continuity Controls","Review BCP documentation, testing frequency, and management sign-off","BC001.S – Business Continuity","Verify treasury BCP is documented, tested periodically, and critical processes can continue during disruption",PDF.treasury + "#page=71")
-          ]),
-        ]
-      },
-      {
-        id: "fin-prog-2",
-        name: "Credit Risk Management",
-        description: "Credit evaluation, restructured arrangements, and account monitoring",
-        pdfUrl: PDF.creditRisk,
-        riskAreas: [
-          ra("fin-p2-ra-1","Credit Evaluation","Risks related to client and commercial financing credit assessments",[
-            co("fin-p2-ra-1","Credit Evaluation","Verify credit evaluation ensures financing risk is effectively managed","Credit Evaluation","Verify credit evaluation process for end customers and dealers","CE001.P – Credit Evaluation","Test sample of credit evaluations for consistency of methodology and risk rating accuracy",PDF.creditRisk + "#page=9")
-          ]),
-          ra("fin-p2-ra-2","Restructured Credit Arrangements","Risks related to high-risk account restructuring",[
-            co("fin-p2-ra-2","Restructured Credit","Determine if high-risk accounts comply with restructured agreement terms","Restructured Credit Arrangements","Review high-risk account compliance with restructured credit terms and conditions","RC001.P – Restructured Arrangements","Select sample of restructured accounts and verify monitoring, compliance, and management review",PDF.creditRisk + "#page=14")
-          ]),
-          ra("fin-p2-ra-3","Account Monitoring","Risks related to special handling of focus accounts",[
-            co("fin-p2-ra-3","Special Handling","Determine adequacy of focus account and lessons-learned process","Special Handling Process","Analyse circumstances leading to losses and identify prevention opportunities","SH001.P – Special Handling","Review focus account reports, loss analysis, and corrective action plans",PDF.creditRisk + "#page=18")
-          ]),
-        ]
-      },
-      {
-        id: "fin-prog-3",
-        name: "Risk and Insurance Management",
-        description: "Insurance policies, captives management, vendor management, and disbursements",
-        pdfUrl: PDF.riskInsurance,
-        riskAreas: [
-          ra("fin-p3-ra-1","Insurance Policies","Risks related to insurance placement and premium justification",[
-            co("fin-p3-ra-1","Insurance Risk","Ascertain whether insurance placements have appropriate management approval and justify premium spend","Insurance Risk Analysis","Assess process for identifying and approving insurance placements","RA001.P – Insurance Risk Analysis","Review insurance programme approvals, premium analysis, and management sign-off",PDF.riskInsurance + "#page=9")
-          ]),
-          ra("fin-p3-ra-2","Vendor Management","Risks related to outsourced risk management contracts",[
-            co("fin-p3-ra-2","Vendor Contracts","Determine if outsourced RIM contracts include detailed scopes and appropriate business/legal clauses","Vendor/Supplier Contracts","Review contracts for scope, clauses, and performance measurement","RA005.P – Vendor Contracts","Sample outsourced RIM contracts for completeness, performance metrics, and renewal controls",PDF.riskInsurance + "#page=14")
-          ]),
-          ra("fin-p3-ra-3","Insurance Claims","Risks related to claim filing, recording, and reimbursement",[
-            co("fin-p3-ra-3","Claims Management","Ensure all applicable loss claims are filed timely with proper reconciliation","Insurance Claims","Review claims filing process and reimbursement reconciliation","RA006.P – Insurance Claims","Test sample of claims for timely filing, contractual reimbursement, and activity reconciliation",PDF.riskInsurance + "#page=16")
-          ]),
-        ]
-      },
-      {
-        id: "fin-prog-4",
-        name: "Pension Asset Management",
-        description: "Plan valuation, cash movements, asset allocation, and vendor management",
-        pdfUrl: PDF.pension,
-        riskAreas: [
-          ra("fin-p4-ra-1","Plan Valuation and Reconciliations","Risks related to accurate valuation of pension plan assets",[
-            co("fin-p4-ra-1","Plan Valuation","Gain assurance plan assets are valued accurately through independent sources and reconciliations","Plan Valuation","Verify reconciliations between custodians, trustees, and investment managers","FA001.P – Plan Valuation","Select sample of plan valuations and test accuracy, independence, and timely reconciliation",PDF.pension + "#page=13")
-          ]),
-          ra("fin-p4-ra-2","External Cash Movements","Risks related to cash transactions within and outside pension funds",[
-            co("fin-p4-ra-2","Cash Movement Controls","Determine if cash transactions are properly authorised and comply with pension policies","Cash Movement within and Outside Pension Funds","Validate authorisation of all cash movements in and out of pension fund accounts","CM001.P – Cash Movements","Review sample of cash transactions for proper authorisation and policy compliance",PDF.pension + "#page=20")
-          ]),
-          ra("fin-p4-ra-3","Asset Allocation Rebalancing","Risks related to deviation from investment policy",[
-            co("fin-p4-ra-3","Asset Allocation","Ensure assets are allocated and rebalanced within approved tolerance ranges","Asset Allocation and Rebalancing","Verify rebalancing activities reflect participant selections and approved tolerances","FA003.P – Asset Allocation","Test rebalancing transactions for policy compliance, documentation, and management approval",PDF.pension + "#page=15")
-          ]),
-          ra("fin-p4-ra-4","Vendor Management","Risks related to investment manager contracts and fees",[
-            co("fin-p4-ra-4","Contract Administration","Validate contracts for investment managers and vendors were properly negotiated and include required FIN175 terms","Administer Contracts","Review investment manager contract terms, renewals, and fee accuracy","VM001.P – Contract Administration","Sample investment manager contracts for completeness, renewal controls, and fee validation",PDF.pension + "#page=25")
-          ]),
-          ra("fin-p4-ra-5","Access Management and Data Protection","Risks related to access controls and data privacy for pension systems",[
-            co("fin-p4-ra-5","Pension Access Controls","Ensure pension system access is controlled appropriately and sensitive data is protected per IBM guidelines","Access Management Controls","Review pension system access controls, SOD assessment, and data protection measures","GO006.S – Access Management and Data Protection","Review pension system user access, SOD conflicts, and data classification and protection controls",PDF.pension + "#page=30")
-          ]),
-          ra("fin-p4-ra-6","Investment Manager Compliance","Risks related to investment manager adherence to mandates and regulatory requirements",[
-            co("fin-p4-ra-6","Investment Manager Compliance","Verify investment managers operate within approved mandates and comply with applicable regulations","Investment Manager Mandate Compliance","Review investment manager compliance reports and benchmark performance","VM004.P – Investment Manager Compliance","Select investment managers and verify mandate compliance, regulatory reporting, and benchmark adherence",PDF.pension + "#page=28")
-          ]),
-          ra("fin-p4-ra-7","Intra-fund Transfers","Risks related to authorisation and accuracy of transfers between pension funds",[
-            co("fin-p4-ra-7","Intra-fund Transfer Controls","Determine if intra-fund transfers are properly authorised and executed per IBM pension policies","Intra-fund Transfer Authorisation","Review authorisation process for fund-to-fund transfers and reconciliation","CM001.P – Intra-fund Transfers","Select sample of intra-fund transfers and verify proper authorisation, documentation, and timely settlement",PDF.pension + "#page=22")
-          ]),
-          {
-            id: "fin-p4-ra-8",
-            name: "Compliance (Derivatives / Securities / FATCA)",
-            description: "Risks related to regulatory compliance for derivative instruments, securities, and FATCA reporting",
-            controlObjectives: [
-              {
-                id: "fin-p4-ra-8-co-1",
-                name: "Derivatives, Securities and FATCA Compliance",
-                description: "Ensure pension plan complies with derivative, securities, and FATCA reporting requirements.",
-                pdfUrl: PDF.pension + "#page=32",
-                controls: [
-                  { id: "fin-p4-ra-8-ctrl-1", name: "Regulatory Compliance Controls", description: "Verify compliance with derivative, securities, and FATCA regulations", pdfUrl: PDF.pension + "#page=32", testTemplates: [
-                    { id: "fin-p4-ra-8-tt-1", name: "GO004.S – Derivatives Compliance", description: "Review derivative instrument controls and regulatory reporting", pdfUrl: PDF.pension + "#page=32", steps: [] },
-                    { id: "fin-p4-ra-8-tt-2", name: "GO005.S – Securities Compliance", description: "Verify securities transactions comply with applicable regulations", pdfUrl: PDF.pension + "#page=34", steps: [] },
-                    { id: "fin-p4-ra-8-tt-3", name: "GO007.S – FATCA Compliance", description: "Verify FATCA reporting obligations are met for pension plan assets", pdfUrl: PDF.pension + "#page=36", steps: [] },
-                  ]}
-                ]
-              }
-            ]
-          },
-        ]
-      },
-    ]
-  },
-
-  // ─────────────────────────────────────────────
-  // ACCOUNTING
-  // ─────────────────────────────────────────────
-  accounting: {
-    name: "Accounting",
-    description: "General accounting, tax, fixed assets, and disbursements",
-    color: "#60a5fa",
+    processNumbers: "10-05-00 · 10-06-00 · 10-40-00 · 10-30-00 · 10-20-00 · 10-50-00",
     pdfUrl: PDF.accounting,
     programs: [
       {
@@ -360,7 +182,7 @@ export const auditData = {
             co("acc-p1-ra-7","Miscode Controls","Determine whether controls ensure miscodes are properly reviewed and approved for processing","Miscodes / Errors","Review default account activity and verify appropriate miscode correction procedures","PI003.P – Miscodes","Identify miscodes sitting in default accounts and verify business justification for uncorrected items",PDF.accounting + "#page=13")
           ]),
         ]
-      },
+      },,
       {
         id: "acc-prog-2",
         name: "Accounting Fixed Assets",
@@ -453,7 +275,7 @@ export const auditData = {
             }
           ]),
         ]
-      },
+      },,
       {
         id: "acc-prog-3",
         name: "Intercompany Accounting",
@@ -671,50 +493,7 @@ export const auditData = {
             co("acc-p3-ra-7","Data Privacy","Validate controls protect against unauthorised data access per IBM data privacy guidelines","Data Protection","Review data classification, access controls, and privacy compliance","DI004.P – Data Protection","Verify data privacy controls are implemented and access is limited to authorised users only",PDF.intercompany + "#page=11")
           ]),
         ]
-      },
-      {
-        id: "acc-prog-4",
-        name: "Income Tax",
-        description: "Deferred taxes, tax returns, withholding taxes, and corporate tax reporting",
-        pdfUrl: PDF.incomeTax,
-        riskAreas: [
-          ra("acc-p4-ra-1","Compliance with Tax Regulations","Risks related to overall compliance with income tax laws and regulations",[
-            co("acc-p4-ra-1","Tax Compliance","Ensure all required tax returns are accurate and filed timely","Tax Preparation and Filing Controls","Review tax return preparation, filing controls, and regulatory deadlines","TR001.P – Tax Preparation","Select sample of tax returns and verify accuracy, timeliness, and proper approval before filing",PDF.incomeTax + "#page=21")
-          ]),
-          ra("acc-p4-ra-2","Deferred Tax Assets and Liabilities","Risks related to accurate identification and recording of deferred taxes",[
-            co("acc-p4-ra-2","Deferred Tax","Ensure required controls identify and record temporary and permanent tax differences","Test of Temporary Differences","Verify temporary differences are adequately identified and used to determine tax provision","DT001.P – Deferred Tax","Select deferred tax items and verify appropriate identification, calculation, and management review",PDF.incomeTax + "#page=15")
-          ]),
-          ra("acc-p4-ra-3","Withholding Taxes","Risks related to withholding tax remittance and recovery",[
-            co("acc-p4-ra-3","Withholding Tax Controls","Ensure taxes are withheld on foreign payments and properly remitted","Withholding Taxes Remitted","Verify withholding taxes are remitted to tax jurisdictions accurately and on time","WT001.P – Withholding Taxes","Test sample of foreign payments and verify correct withholding, remittance, and documentation",PDF.incomeTax + "#page=27")
-          ]),
-          ra("acc-p4-ra-4","Income Tax Provisions","Risks related to accurate quarterly income tax provision booking",[
-            co("acc-p4-ra-4","Tax Provision Accuracy","Verify accuracy of income tax provision booked by accounting on quarterly or monthly basis","Accuracy of Income Tax Provision","Review tax provision calculations and management approval process","IT001.P – Income Tax Provision","Review provision calculations, supporting documentation, and alignment with regulatory requirements",PDF.incomeTax + "#page=19")
-          ]),
-          ra("acc-p4-ra-5","Tax Reserves","Risks related to uncertain tax position identification under FIN48",[
-            co("acc-p4-ra-5","FIN48 Analysis","Ensure controls are in place to adequately identify and evaluate Uncertain Tax Positions","Review of FIN 48 Analysis","Verify uncertain tax positions are identified, evaluated, and properly documented","FA001.P – FIN48 Review","Select uncertain tax positions and verify methodology, documentation, and management approval",PDF.incomeTax + "#page=25")
-          ]),
-        ]
-      },
-      {
-        id: "acc-prog-5",
-        name: "Indirect Tax",
-        description: "Output taxes, input taxes, and tax return filings for VAT/GST",
-        pdfUrl: PDF.indirectTax,
-        riskAreas: [
-          ra("acc-p5-ra-1","Output Tax","Risks related to accurate customer billing calculations for indirect taxes",[
-            co("acc-p5-ra-1","Output Tax Controls","Verify billings from IBM are accurately calculated with regard to jurisdictional tax legislation","Customer Billing Calculations","Review customer billing calculations for tax accuracy and compliance","OT001.P – Customer Billing","Select sample of customer invoices and verify indirect tax calculations against applicable legislation",PDF.indirectTax + "#page=18")
-          ]),
-          ra("acc-p5-ra-2","Input Tax","Risks related to accurate and recoverable vendor invoice tax amounts",[
-            co("acc-p5-ra-2","Input Tax Controls","Verify billings to IBM are accurately calculated and recoverable tax is properly identified","Vendor Invoice Calculations","Review vendor invoices for tax accuracy and recoverable tax identification","IT001.P – Vendor Invoices","Select sample of vendor invoices and verify indirect tax calculation accuracy and recovery process",PDF.indirectTax + "#page=21")
-          ]),
-          ra("acc-p5-ra-3","Tax Returns","Risks related to accurate and timely indirect tax return filing",[
-            co("acc-p5-ra-3","Tax Return Filing","Ensure tax returns are submitted timely, accurately, and properly approved","Tax Returns","Review tax return preparation and filing controls for indirect taxes","TR002.P – Tax Returns","Select sample of tax returns and verify accuracy, timeliness, approvals, and payment reconciliation",PDF.indirectTax + "#page=15")
-          ]),
-          ra("acc-p5-ra-4","Account Reconciliation","Risks related to indirect tax balance sheet reconciliations",[
-            co("acc-p5-ra-4","Reconciliation Controls","Ensure account reconciliations are performed regularly with proper management approval","Account Reconciliation Performance","Review indirect tax account reconciliations for timeliness and completeness","BS001.P – Reconciliations","Review selected reconciliations for frequency compliance, content accuracy, and management sign-off",PDF.indirectTax + "#page=23")
-          ]),
-        ]
-      },
+      },,
       {
         id: "acc-prog-6",
         name: "IBM Financing Accounting",
@@ -759,7 +538,7 @@ export const auditData = {
             co("acc-p6-ra-7","Receivable Purchasing Controls","Ensure receivable purchasing and inventory financing transactions are authorised, recorded, and monitored","Receivable Purchasing and Inventory Financing","Review receivable purchasing process and inventory financing controls","RC001.P – Receivable Purchasing","Select sample of receivable purchasing and inventory financing transactions and verify proper authorisation and recording",PDF.ibmFinancing + "#page=28")
           ]),
         ]
-      },
+      },,
       {
         id: "acc-prog-7",
         name: "Cost Accounting",
@@ -782,7 +561,269 @@ export const auditData = {
             co("acc-p7-ra-5","SOD Controls","Validate duties are segregated adequately to deter and detect errors, waste, and fraud","Separation of Duties and Excessive Authority","Review SOD assessment and verify system authorities are limited to those needed","SO001.P – SOD","Request SOD assessment and test that no individual holds conflicting authorities in the cost accounting system",PDF.costAccounting + "#page=23")
           ]),
         ]
-      },
+      },,
+    ]
+  },
+
+  // ─────────────────────────────────────────────
+  // TREASURY
+  // ─────────────────────────────────────────────
+  treasury: {
+    name: "Treasury",
+    description: "Treasury operations, risk and insurance management, and pension asset management",
+    color: "#7c3aed",
+    processNumbers: "12-00-00 · 13-20-00 · 14-00-00",
+    pdfUrl: PDF.treasury,
+    programs: [
+      {
+        id: "fin-prog-1",
+        name: "Treasury Operations",
+        description: "Cash management, investments, foreign exchange, and bank guarantees",
+        pdfUrl: PDF.treasury,
+        riskAreas: [
+          ra("fin-p1-ra-1","Cash Management and Forecast","Risks related to cash flow forecasting and bank reconciliations",[
+            co("fin-p1-ra-1","Cash Management","Ensure cash accounts are managed, forecast accurately, and reconciled timely","Cash Flow Forecasting","Verify treasury cash forecasting process avoids overdrafts and optimises deployment","CM002.P – Cash Flow Forecasting","Compare cash projections with actual results and review overdraft prevention controls",PDF.treasury + "#page=19")
+          ]),
+          ra("fin-p1-ra-2","Investment and Borrowing","Risks related to investment portfolio and borrowing management",[
+            co("fin-p1-ra-2","Investment Portfolio","Ensure investment transactions are authorised and compliant with corporate policy","Valuation and Control of Portfolio","Verify investment portfolio is properly valued and controlled","IP001.P – Portfolio Valuation","Review investment valuations, authorisations, and policy compliance",PDF.treasury + "#page=27")
+          ]),
+          ra("fin-p1-ra-3","Foreign Exchange and Hedging","Risks related to FX transactions and derivative instruments",[
+            co("fin-p1-ra-3","Foreign Exchange Management","Ensure FX transactions are authorised, executed at competitive rates, and recorded accurately","Foreign Exchange Transactions","Review FX transactions for proper authorisation and accurate ledger recording","FX001.P – FX Transactions","Test sample of FX transactions for authorisation, rate accuracy, and timely recording",PDF.treasury + "#page=40")
+          ]),
+          ra("fin-p1-ra-4","Bank Guarantees","Risks related to issuance and management of bank guarantees",[
+            co("fin-p1-ra-4","Bank Guarantees","Ensure bank guarantees are properly authorised and tracked","Bank Guarantees","Validate bank guarantee issuance process and management reporting","BG001.P – Bank Guarantees","Review sample of bank guarantees for proper approval, documentation, and monitoring",PDF.treasury + "#page=63")
+          ]),
+          ra("fin-p1-ra-5","Counterparty Limits","Risks related to counterparty credit exposure",[
+            co("fin-p1-ra-5","Counterparty Risk","Ensure counterparty credit limits are established, monitored, and enforced","Credit Risk Management Reports","Determine adequacy of controls through management reports such as daily activity reports","CR001.P – Counterparty Limits","Review counterparty limit reports, breaches, and management response actions",PDF.treasury + "#page=54")
+          ]),
+          ra("fin-p1-ra-6","Disbursements, Manual Payments and Factoring","Risks related to wire transfers, manual payments, and factoring arrangements",
+            [
+              {
+                id: "fin-p1-ra-6-co-1",
+                name: "Disbursements, Manual Payments and Factoring",
+                description: "Ensure disbursements, manual payments, and factoring are properly authorised, documented, and recorded.",
+                pdfUrl: PDF.treasury + "#page=45",
+                controls: [
+                  { id: "fin-p1-ra-6-ctrl-1", name: "Disbursement and Manual Payment Controls", description: "Verify wire transfers and manual payments are authorised and recorded accurately", pdfUrl: PDF.treasury + "#page=45", testTemplates: [
+                    { id: "fin-p1-ra-6-tt-1", name: "CM003.S – Wire Transfer Controls", description: "Review wire transfer authorisation and segregation of duties", pdfUrl: PDF.treasury + "#page=45", steps: [] },
+                    { id: "fin-p1-ra-6-tt-2", name: "CM005.S – Manual Payment Controls", description: "Review manual payment process for proper approval and documentation", pdfUrl: PDF.treasury + "#page=47", steps: [] },
+                    { id: "fin-p1-ra-6-tt-3", name: "CM007.S – Factoring Arrangements", description: "Verify factoring arrangements are properly authorised and recorded", pdfUrl: PDF.treasury + "#page=49", steps: [] },
+                    { id: "fin-p1-ra-6-tt-4", name: "IT001.P – IT Controls for Payments", description: "Review IT application controls supporting disbursement processing", pdfUrl: PDF.treasury + "#page=51", steps: [] },
+                    { id: "fin-p1-ra-6-tt-5", name: "SR001.P – Systems Reconciliation", description: "Verify payment system reconciliations are performed timely and completely", pdfUrl: PDF.treasury + "#page=52", steps: [] },
+                  ]}
+                ]
+              }
+            ]
+          ),
+          ra("fin-p1-ra-7","Bank Administration, Data Protection and Bank Fees","Risks related to bank account administration, fee accuracy, and data security",[
+            {
+              id: "fin-p1-ra-7-co-1",
+              name: "Bank Administration and Data Protection",
+              description: "Ensure bank accounts are properly administered, fees are reviewed for accuracy, and banking data is protected.",
+              pdfUrl: PDF.treasury + "#page=33",
+              controls: [
+                { id: "fin-p1-ra-7-ctrl-1", name: "Bank Account Administration Controls", description: "Verify bank accounts are set up with proper authorisation and access controls", pdfUrl: PDF.treasury + "#page=33", testTemplates: [
+                  { id: "fin-p1-ra-7-tt-1", name: "CM001.P – Bank Account Administration", description: "Review bank account opening, closing, and signatory controls", pdfUrl: PDF.treasury + "#page=33", steps: [] },
+                  { id: "fin-p1-ra-7-tt-2", name: "IP003.P – Data Protection", description: "Verify sensitive banking data is protected per IBM data privacy guidelines", pdfUrl: PDF.treasury + "#page=35", steps: [] },
+                ]}
+              ]
+            }
+          ]),
+          ra("fin-p1-ra-8","Acquisitions","Risks related to cash and treasury controls for acquired entities",[
+            co("fin-p1-ra-8","Acquisition Integration Controls","Verify treasury controls are extended to acquired entities in a timely and complete manner","Acquisition Cash Controls","Review integration of acquired entity bank accounts and treasury systems","AI001.P – Acquisition Integration","Verify acquired entity treasury processes are integrated per IBM requirements with proper oversight",PDF.treasury + "#page=67")
+          ]),
+          ra("fin-p1-ra-9","Accounting Reconciliations","Risks related to treasury account reconciliation accuracy and timeliness",[
+            co("fin-p1-ra-9","Treasury Reconciliations","Ensure all treasury accounts are reconciled on a timely basis with appropriate management oversight","Accounting Reconciliation Controls","Review treasury reconciliation process and management approval","CM004.P – Treasury Reconciliations","Select sample of treasury account reconciliations and verify timeliness, completeness, and management approval",PDF.treasury + "#page=30")
+          ]),
+          {
+            id: "fin-p1-ra-10",
+            name: "Cybersecurity and Payment Systems",
+            description: "Risks related to cybersecurity controls protecting treasury and payment systems",
+            controlObjectives: [
+              {
+                id: "fin-p1-ra-10-co-1",
+                name: "Cybersecurity and Payment Systems",
+                description: "Ensure payment systems are protected against cyber threats and access is appropriately controlled.",
+                pdfUrl: PDF.treasury + "#page=56",
+                controls: [
+                  { id: "fin-p1-ra-10-ctrl-1", name: "Cybersecurity Controls for Treasury", description: "Verify cybersecurity controls protect treasury payment systems", pdfUrl: PDF.treasury + "#page=56", testTemplates: [
+                    { id: "fin-p1-ra-10-tt-1", name: "CM001.P – Cybersecurity Access Controls", description: "Review access management controls for treasury systems and payment platforms", pdfUrl: PDF.treasury + "#page=56", steps: [] },
+                    { id: "fin-p1-ra-10-tt-2", name: "CM003.S – Payment System Security", description: "Verify payment system security controls and incident response procedures", pdfUrl: PDF.treasury + "#page=58", steps: [] },
+                  ]}
+                ]
+              }
+            ]
+          },
+          ra("fin-p1-ra-11","Business Continuity","Risks related to treasury operations continuity during disruption",[
+            co("fin-p1-ra-11","Business Continuity Planning","Ensure treasury has a documented and tested business continuity plan","Business Continuity Controls","Review BCP documentation, testing frequency, and management sign-off","BC001.S – Business Continuity","Verify treasury BCP is documented, tested periodically, and critical processes can continue during disruption",PDF.treasury + "#page=71")
+          ]),
+        ]
+      },,
+      {
+        id: "fin-prog-3",
+        name: "Risk and Insurance Management",
+        description: "Insurance policies, captives management, vendor management, and disbursements",
+        pdfUrl: PDF.riskInsurance,
+        riskAreas: [
+          ra("fin-p3-ra-1","Insurance Policies","Risks related to insurance placement and premium justification",[
+            co("fin-p3-ra-1","Insurance Risk","Ascertain whether insurance placements have appropriate management approval and justify premium spend","Insurance Risk Analysis","Assess process for identifying and approving insurance placements","RA001.P – Insurance Risk Analysis","Review insurance programme approvals, premium analysis, and management sign-off",PDF.riskInsurance + "#page=9")
+          ]),
+          ra("fin-p3-ra-2","Vendor Management","Risks related to outsourced risk management contracts",[
+            co("fin-p3-ra-2","Vendor Contracts","Determine if outsourced RIM contracts include detailed scopes and appropriate business/legal clauses","Vendor/Supplier Contracts","Review contracts for scope, clauses, and performance measurement","RA005.P – Vendor Contracts","Sample outsourced RIM contracts for completeness, performance metrics, and renewal controls",PDF.riskInsurance + "#page=14")
+          ]),
+          ra("fin-p3-ra-3","Insurance Claims","Risks related to claim filing, recording, and reimbursement",[
+            co("fin-p3-ra-3","Claims Management","Ensure all applicable loss claims are filed timely with proper reconciliation","Insurance Claims","Review claims filing process and reimbursement reconciliation","RA006.P – Insurance Claims","Test sample of claims for timely filing, contractual reimbursement, and activity reconciliation",PDF.riskInsurance + "#page=16")
+          ]),
+        ]
+      },,
+      {
+        id: "fin-prog-4",
+        name: "Pension Asset Management",
+        description: "Plan valuation, cash movements, asset allocation, and vendor management",
+        pdfUrl: PDF.pension,
+        riskAreas: [
+          ra("fin-p4-ra-1","Plan Valuation and Reconciliations","Risks related to accurate valuation of pension plan assets",[
+            co("fin-p4-ra-1","Plan Valuation","Gain assurance plan assets are valued accurately through independent sources and reconciliations","Plan Valuation","Verify reconciliations between custodians, trustees, and investment managers","FA001.P – Plan Valuation","Select sample of plan valuations and test accuracy, independence, and timely reconciliation",PDF.pension + "#page=13")
+          ]),
+          ra("fin-p4-ra-2","External Cash Movements","Risks related to cash transactions within and outside pension funds",[
+            co("fin-p4-ra-2","Cash Movement Controls","Determine if cash transactions are properly authorised and comply with pension policies","Cash Movement within and Outside Pension Funds","Validate authorisation of all cash movements in and out of pension fund accounts","CM001.P – Cash Movements","Review sample of cash transactions for proper authorisation and policy compliance",PDF.pension + "#page=20")
+          ]),
+          ra("fin-p4-ra-3","Asset Allocation Rebalancing","Risks related to deviation from investment policy",[
+            co("fin-p4-ra-3","Asset Allocation","Ensure assets are allocated and rebalanced within approved tolerance ranges","Asset Allocation and Rebalancing","Verify rebalancing activities reflect participant selections and approved tolerances","FA003.P – Asset Allocation","Test rebalancing transactions for policy compliance, documentation, and management approval",PDF.pension + "#page=15")
+          ]),
+          ra("fin-p4-ra-4","Vendor Management","Risks related to investment manager contracts and fees",[
+            co("fin-p4-ra-4","Contract Administration","Validate contracts for investment managers and vendors were properly negotiated and include required FIN175 terms","Administer Contracts","Review investment manager contract terms, renewals, and fee accuracy","VM001.P – Contract Administration","Sample investment manager contracts for completeness, renewal controls, and fee validation",PDF.pension + "#page=25")
+          ]),
+          ra("fin-p4-ra-5","Access Management and Data Protection","Risks related to access controls and data privacy for pension systems",[
+            co("fin-p4-ra-5","Pension Access Controls","Ensure pension system access is controlled appropriately and sensitive data is protected per IBM guidelines","Access Management Controls","Review pension system access controls, SOD assessment, and data protection measures","GO006.S – Access Management and Data Protection","Review pension system user access, SOD conflicts, and data classification and protection controls",PDF.pension + "#page=30")
+          ]),
+          ra("fin-p4-ra-6","Investment Manager Compliance","Risks related to investment manager adherence to mandates and regulatory requirements",[
+            co("fin-p4-ra-6","Investment Manager Compliance","Verify investment managers operate within approved mandates and comply with applicable regulations","Investment Manager Mandate Compliance","Review investment manager compliance reports and benchmark performance","VM004.P – Investment Manager Compliance","Select investment managers and verify mandate compliance, regulatory reporting, and benchmark adherence",PDF.pension + "#page=28")
+          ]),
+          ra("fin-p4-ra-7","Intra-fund Transfers","Risks related to authorisation and accuracy of transfers between pension funds",[
+            co("fin-p4-ra-7","Intra-fund Transfer Controls","Determine if intra-fund transfers are properly authorised and executed per IBM pension policies","Intra-fund Transfer Authorisation","Review authorisation process for fund-to-fund transfers and reconciliation","CM001.P – Intra-fund Transfers","Select sample of intra-fund transfers and verify proper authorisation, documentation, and timely settlement",PDF.pension + "#page=22")
+          ]),
+          {
+            id: "fin-p4-ra-8",
+            name: "Compliance (Derivatives / Securities / FATCA)",
+            description: "Risks related to regulatory compliance for derivative instruments, securities, and FATCA reporting",
+            controlObjectives: [
+              {
+                id: "fin-p4-ra-8-co-1",
+                name: "Derivatives, Securities and FATCA Compliance",
+                description: "Ensure pension plan complies with derivative, securities, and FATCA reporting requirements.",
+                pdfUrl: PDF.pension + "#page=32",
+                controls: [
+                  { id: "fin-p4-ra-8-ctrl-1", name: "Regulatory Compliance Controls", description: "Verify compliance with derivative, securities, and FATCA regulations", pdfUrl: PDF.pension + "#page=32", testTemplates: [
+                    { id: "fin-p4-ra-8-tt-1", name: "GO004.S – Derivatives Compliance", description: "Review derivative instrument controls and regulatory reporting", pdfUrl: PDF.pension + "#page=32", steps: [] },
+                    { id: "fin-p4-ra-8-tt-2", name: "GO005.S – Securities Compliance", description: "Verify securities transactions comply with applicable regulations", pdfUrl: PDF.pension + "#page=34", steps: [] },
+                    { id: "fin-p4-ra-8-tt-3", name: "GO007.S – FATCA Compliance", description: "Verify FATCA reporting obligations are met for pension plan assets", pdfUrl: PDF.pension + "#page=36", steps: [] },
+                  ]}
+                ]
+              }
+            ]
+          },
+        ]
+      },,
+    ]
+  },
+
+  // ─────────────────────────────────────────────
+  // IBM FINANCING
+  // ─────────────────────────────────────────────
+  ibm_financing: {
+    name: "IBM Financing",
+    description: "Credit risk management, client financing, and commercial financing",
+    color: "#0891b2",
+    processNumbers: "13-10-00",
+    pdfUrl: PDF.creditRisk,
+    programs: [
+      {
+        id: "fin-prog-2",
+        name: "Credit Risk Management",
+        description: "Credit evaluation, restructured arrangements, and account monitoring",
+        pdfUrl: PDF.creditRisk,
+        riskAreas: [
+          ra("fin-p2-ra-1","Credit Evaluation","Risks related to client and commercial financing credit assessments",[
+            co("fin-p2-ra-1","Credit Evaluation","Verify credit evaluation ensures financing risk is effectively managed","Credit Evaluation","Verify credit evaluation process for end customers and dealers","CE001.P – Credit Evaluation","Test sample of credit evaluations for consistency of methodology and risk rating accuracy",PDF.creditRisk + "#page=9")
+          ]),
+          ra("fin-p2-ra-2","Restructured Credit Arrangements","Risks related to high-risk account restructuring",[
+            co("fin-p2-ra-2","Restructured Credit","Determine if high-risk accounts comply with restructured agreement terms","Restructured Credit Arrangements","Review high-risk account compliance with restructured credit terms and conditions","RC001.P – Restructured Arrangements","Select sample of restructured accounts and verify monitoring, compliance, and management review",PDF.creditRisk + "#page=14")
+          ]),
+          ra("fin-p2-ra-3","Account Monitoring","Risks related to special handling of focus accounts",[
+            co("fin-p2-ra-3","Special Handling","Determine adequacy of focus account and lessons-learned process","Special Handling Process","Analyse circumstances leading to losses and identify prevention opportunities","SH001.P – Special Handling","Review focus account reports, loss analysis, and corrective action plans",PDF.creditRisk + "#page=18")
+          ]),
+        ]
+      },,
+    ]
+  },
+
+  // ─────────────────────────────────────────────
+  // TAX
+  // ─────────────────────────────────────────────
+  tax: {
+    name: "Tax",
+    description: "Income taxes and indirect taxes",
+    color: "#dc2626",
+    processNumbers: "15-20-00 · 15-10-00",
+    pdfUrl: PDF.incomeTax,
+    programs: [
+      {
+        id: "acc-prog-4",
+        name: "Income Tax",
+        description: "Deferred taxes, tax returns, withholding taxes, and corporate tax reporting",
+        pdfUrl: PDF.incomeTax,
+        riskAreas: [
+          ra("acc-p4-ra-1","Compliance with Tax Regulations","Risks related to overall compliance with income tax laws and regulations",[
+            co("acc-p4-ra-1","Tax Compliance","Ensure all required tax returns are accurate and filed timely","Tax Preparation and Filing Controls","Review tax return preparation, filing controls, and regulatory deadlines","TR001.P – Tax Preparation","Select sample of tax returns and verify accuracy, timeliness, and proper approval before filing",PDF.incomeTax + "#page=21")
+          ]),
+          ra("acc-p4-ra-2","Deferred Tax Assets and Liabilities","Risks related to accurate identification and recording of deferred taxes",[
+            co("acc-p4-ra-2","Deferred Tax","Ensure required controls identify and record temporary and permanent tax differences","Test of Temporary Differences","Verify temporary differences are adequately identified and used to determine tax provision","DT001.P – Deferred Tax","Select deferred tax items and verify appropriate identification, calculation, and management review",PDF.incomeTax + "#page=15")
+          ]),
+          ra("acc-p4-ra-3","Withholding Taxes","Risks related to withholding tax remittance and recovery",[
+            co("acc-p4-ra-3","Withholding Tax Controls","Ensure taxes are withheld on foreign payments and properly remitted","Withholding Taxes Remitted","Verify withholding taxes are remitted to tax jurisdictions accurately and on time","WT001.P – Withholding Taxes","Test sample of foreign payments and verify correct withholding, remittance, and documentation",PDF.incomeTax + "#page=27")
+          ]),
+          ra("acc-p4-ra-4","Income Tax Provisions","Risks related to accurate quarterly income tax provision booking",[
+            co("acc-p4-ra-4","Tax Provision Accuracy","Verify accuracy of income tax provision booked by accounting on quarterly or monthly basis","Accuracy of Income Tax Provision","Review tax provision calculations and management approval process","IT001.P – Income Tax Provision","Review provision calculations, supporting documentation, and alignment with regulatory requirements",PDF.incomeTax + "#page=19")
+          ]),
+          ra("acc-p4-ra-5","Tax Reserves","Risks related to uncertain tax position identification under FIN48",[
+            co("acc-p4-ra-5","FIN48 Analysis","Ensure controls are in place to adequately identify and evaluate Uncertain Tax Positions","Review of FIN 48 Analysis","Verify uncertain tax positions are identified, evaluated, and properly documented","FA001.P – FIN48 Review","Select uncertain tax positions and verify methodology, documentation, and management approval",PDF.incomeTax + "#page=25")
+          ]),
+        ]
+      },,
+      {
+        id: "acc-prog-5",
+        name: "Indirect Tax",
+        description: "Output taxes, input taxes, and tax return filings for VAT/GST",
+        pdfUrl: PDF.indirectTax,
+        riskAreas: [
+          ra("acc-p5-ra-1","Output Tax","Risks related to accurate customer billing calculations for indirect taxes",[
+            co("acc-p5-ra-1","Output Tax Controls","Verify billings from IBM are accurately calculated with regard to jurisdictional tax legislation","Customer Billing Calculations","Review customer billing calculations for tax accuracy and compliance","OT001.P – Customer Billing","Select sample of customer invoices and verify indirect tax calculations against applicable legislation",PDF.indirectTax + "#page=18")
+          ]),
+          ra("acc-p5-ra-2","Input Tax","Risks related to accurate and recoverable vendor invoice tax amounts",[
+            co("acc-p5-ra-2","Input Tax Controls","Verify billings to IBM are accurately calculated and recoverable tax is properly identified","Vendor Invoice Calculations","Review vendor invoices for tax accuracy and recoverable tax identification","IT001.P – Vendor Invoices","Select sample of vendor invoices and verify indirect tax calculation accuracy and recovery process",PDF.indirectTax + "#page=21")
+          ]),
+          ra("acc-p5-ra-3","Tax Returns","Risks related to accurate and timely indirect tax return filing",[
+            co("acc-p5-ra-3","Tax Return Filing","Ensure tax returns are submitted timely, accurately, and properly approved","Tax Returns","Review tax return preparation and filing controls for indirect taxes","TR002.P – Tax Returns","Select sample of tax returns and verify accuracy, timeliness, approvals, and payment reconciliation",PDF.indirectTax + "#page=15")
+          ]),
+          ra("acc-p5-ra-4","Account Reconciliation","Risks related to indirect tax balance sheet reconciliations",[
+            co("acc-p5-ra-4","Reconciliation Controls","Ensure account reconciliations are performed regularly with proper management approval","Account Reconciliation Performance","Review indirect tax account reconciliations for timeliness and completeness","BS001.P – Reconciliations","Review selected reconciliations for frequency compliance, content accuracy, and management sign-off",PDF.indirectTax + "#page=23")
+          ]),
+        ]
+      },,
+    ]
+  },
+
+  // ─────────────────────────────────────────────
+  // GLOBAL PROCUREMENT
+  // ─────────────────────────────────────────────
+  global_procurement: {
+    name: "Global Procurement",
+    description: "Accounts payable, general procurement, physical logistics, and trade compliance",
+    color: "#059669",
+    processNumbers: "18-10-00 · 44-20-00 · 32-10-00 · 32-30-00",
+    pdfUrl: PDF.accountsPayable,
+    programs: [
       {
         id: "acc-prog-8",
         name: "Accounts Payable",
@@ -808,27 +849,80 @@ export const auditData = {
             co("acc-p8-ra-6","AP Business Continuity","Ensure a documented and tested business continuity plan exists for accounts payable operations","Business Continuity Controls","Review BCP documentation for AP processes, testing evidence, and management approval","BC001.S – Business Continuity","Verify AP BCP is documented, approved, and tested; confirm critical payment processes can continue during disruption",PDF.accountsPayable + "#page=27")
           ]),
         ]
-      },
+      },,
       {
-        id: "acc-prog-9",
-        name: "Accounts Receivable",
-        description: "Debt collection, cash application, file adjustments, and business continuity",
-        pdfUrl: PDF.accountsReceivable,
+        id: "mkt-prog-3",
+        name: "Procurement",
+        description: "Supplier assessment, selection, contract management, purchase orders, and environmental programmes",
+        pdfUrl: PDF.procurement,
         riskAreas: [
-          ra("acc-p9-ra-1","Debt Collection","Risks related to effective collection programme and delinquent account management",[
-            co("acc-p9-ra-1","Collection Programme","Verify an effective documented collection programme is in place to achieve monthly targets","Collection Measurements and Reporting","Review delinquent dollars, write-offs, and performance tracking measurements","AR001.P – Collection Measurements","Select top delinquent accounts and verify collection plans, escalation, and management reporting",PDF.accountsReceivable + "#page=16")
+          ra("mkt-p3-ra-1","Supplier Assessment","Risks related to new supplier evaluation and integrity focus supplier checks",[
+            co("mkt-p3-ra-1","Supplier Assessment Controls","Validate new suppliers are assessed against DPL/USL, financial criteria, and environmental requirements","Supplier Assessment","Review new supplier assessment process including DPL screening and RBA/SECLA requirements","SA001.P – Supplier Assessment","Select sample of new suppliers and verify assessment against DPL, financial criteria, and agreement signing",PDF.procurement + "#page=16")
           ]),
-          ra("acc-p9-ra-2","Cash Application","Risks related to accurate and timely cash posting",[
-            co("acc-p9-ra-2","Cash Application Controls","Determine if adequate controls ensure funds are deposited accurately and AR records updated timely","Cash Application","Review cash application process and bank reconciliation controls","CA001.P – Cash Application","Test sample of cash receipts for accurate posting, bank reconciliation, and timeliness",PDF.accountsReceivable + "#page=13")
+          ra("mkt-p3-ra-2","Supplier Selection and Fair Value","Risks related to competitive sourcing and fair value determination",[
+            co("mkt-p3-ra-2","Sourcing Controls","Confirm appropriate sourcing techniques, fair value analysis, and required approvals were obtained","Supplier Selection and Fair Value Determination","Review sourcing process and fair value documentation","SF001.P – Supplier Selection","Select sample of procurement decisions and verify competitive sourcing, fair value analysis, and approvals",PDF.procurement + "#page=23")
           ]),
-          ra("acc-p9-ra-3","AR File Adjustments","Risks related to write-offs, refunds, and other AR adjustments",[
-            co("acc-p9-ra-3","Adjustment Controls","Determine if adequate procedures exist for processing AR adjustments with proper management approval","Write-offs","Review write-off and refund procedures for proper documentation and management approval levels","FA002.P – Write-offs","Select sample of write-offs and verify collection escalation was completed with appropriate management approval",PDF.accountsReceivable + "#page=19")
+          ra("mkt-p3-ra-3","Contract Management","Risks related to contract administration and supplier deliverables",[
+            co("mkt-p3-ra-3","Contract Administration","Verify contracts are accurately recorded with valid terms, supplier performance monitored, and amendments controlled","Contract Administration","Review contract management process and supplier performance monitoring","CM001.P – Contract Administration","Select sample of contracts and verify accuracy, performance monitoring, and amendment control procedures",PDF.procurement + "#page=29")
           ]),
-          ra("acc-p9-ra-4","Separation of Duties","Risks related to SOD in cash and AR processes",[
-            co("acc-p9-ra-4","AR SOD","Ensure no one individual has responsibilities allowing them to circumvent controls","Separation of Duties","Review SOD assessment for AR and cash application processes","SD001.P – AR SOD","Review SOD matrix for AR process and verify secondary controls are in place for any identified conflicts",PDF.accountsReceivable + "#page=28")
+          ra("mkt-p3-ra-4","Procurement Bypass","Risks related to bypassing approved procurement channels",[
+            co("mkt-p3-ra-4","Bypass Controls","Identify instances where procurement process was bypassed and verify Blue Book requirements were followed","Procurement Bypass Identification","Review bypass identification process and management approval controls","PB001.P – Procurement Bypass","Identify procurement bypass transactions and verify management oversight and fair value justification",PDF.procurement + "#page=44")
           ]),
         ]
-      },
+      },,
+      {
+        id: "mfg-prog-2",
+        name: "GL Physical Logistics",
+        description: "Distribution operations, supplier management, inventory controls, and environmental management",
+        pdfUrl: PDF.physLogistics,
+        riskAreas: [
+          ra("mfg-p2-ra-1","Supplier Management","Risks related to logistics supplier performance, invoice accuracy, and contract management",[
+            co("mfg-p2-ra-1","Supplier Performance","Verify supplier performance metrics are monitored and validated by IBM management system","Measurements","Review supplier performance metrics and management visibility controls","SM001.P – Measurements","Review logistics supplier performance reports, SLA compliance, and management action for underperformance",PDF.physLogistics + "#page=30")
+          ]),
+          ra("mfg-p2-ra-2","Inventory Controls","Risks related to physical security, supply chain security, and asset controls",[
+            co("mfg-p2-ra-2","Inventory and Asset Controls","Verify inventory counts performed per contract with variance analysis and timely loss detection","Inventory Controls and Verification","Review physical security, cycle count procedures, and asset disposition controls","IC003.P – Inventory Controls","Test inventory count procedures, review security controls, and verify timely investigation of discrepancies",PDF.physLogistics + "#page=27")
+          ]),
+          ra("mfg-p2-ra-3","Distribution Operations","Risks related to receiving, shipping, and records management",[
+            co("mfg-p2-ra-3","Distribution Controls","Ensure timely and safe receipt and shipment of commodities with accurate documentation","Receiving","Review receiving procedures, documentation, and return handling controls","DO001.P – Receiving","Observe or review receiving procedures and verify accuracy of documentation and handling of discrepancies",PDF.physLogistics + "#page=17")
+          ]),
+          ra("mfg-p2-ra-4","Environmental Management","Risks related to environmental compliance in logistics operations",[
+            co("mfg-p2-ra-4","Environmental Compliance","Ensure environmental requirements compliance in supplier operations and material handling","Environmental Management","Review environmental management processes and supplier compliance controls","EM001.P – Environmental Management","Review supplier environmental assessments, compliance documentation, and management oversight",PDF.physLogistics + "#page=34")
+          ]),
+        ]
+      },,
+      {
+        id: "mfg-prog-4",
+        name: "GL Trade Compliance",
+        description: "Export/import classification, customs declarations, export controls, and trade programme management",
+        pdfUrl: PDF.tradeCompliance,
+        riskAreas: [
+          ra("mfg-p4-ra-1","Classification","Risks related to accurate customs and export commodity classification",[
+            co("mfg-p4-ra-1","Customs Classification","Validate timely, accurate, consistent classification with proper approvals and duty impact tracking","Classification of Goods for Customs","Review customs classification process, approvals, and duty impact analysis","IC001.P – Classification","Select sample of classified products and verify accuracy, consistency, required approvals, and duty calculations",PDF.tradeCompliance + "#page=15")
+          ]),
+          ra("mfg-p4-ra-2","Customs Declaration","Risks related to accuracy and completeness of customs declarations",[
+            co("mfg-p4-ra-2","Customs Declarations","Verify declarations are complete, accurate, and consistent with supporting documents","Customs Declarations","Review customs declaration preparation process and post-entry correction controls","CD001.P – Customs Declarations","Select sample of customs declarations and verify completeness, accuracy, and consistency with commercial invoices",PDF.tradeCompliance + "#page=18")
+          ]),
+          ra("mfg-p4-ra-3","Export Regulatory Controls","Risks related to denied party screening and boycott compliance",[
+            co("mfg-p4-ra-3","Export Controls","Verify all export/re-export shipments are screened against denied party lists","Denied Parties List Screening","Review DPL screening process and suspension procedures for matches","EC001.P – DPL Screening","Test sample of export shipments and verify DPL screening was performed prior to shipment release",PDF.tradeCompliance + "#page=12")
+          ]),
+          ra("mfg-p4-ra-4","Customs Risk Management","Risks related to import licences, antidumping duties, and free trade programmes",[
+            co("mfg-p4-ra-4","Import Licensing","Ensure valid licences/permits are in place prior to import with terms of agreement compliance","Import Licenses and Permits","Review import licensing process and validity tracking","CR001.P – Import Licenses","Select sample of imports and verify required licences are in place, current, and terms are complied with",PDF.tradeCompliance + "#page=25")
+          ]),
+        ]
+      },,
+    ]
+  },
+
+  // ─────────────────────────────────────────────
+  // HUMAN RESOURCES
+  // ─────────────────────────────────────────────
+  human_resources: {
+    name: "Human Resources",
+    description: "Payroll, travel and expense, management of disbursements, and global compensation",
+    color: "#d97706",
+    processNumbers: "18-20-00 · 18-15-00 · 18-05-00 · 40-20-00",
+    pdfUrl: PDF.payroll,
+    programs: [
       {
         id: "acc-prog-10",
         name: "Payroll",
@@ -848,7 +942,7 @@ export const auditData = {
             co("acc-p10-ra-4","Payroll SOD","Ensure SOD assessment is performed annually and conflicts are resolved","Separation of Duties","Review SOD assessment for payroll roles and verify mitigating controls","IC001.P – Payroll SOD","Request payroll SOD assessment and verify identified conflicts are eliminated or have effective secondary controls",PDF.payroll + "#page=18")
           ]),
         ]
-      },
+      },,
       {
         id: "acc-prog-11",
         name: "Travel and Expense",
@@ -865,7 +959,7 @@ export const auditData = {
             co("acc-p11-ra-3","T&E SOD","Ensure SOD assessment is performed and approved annually with conflicts addressed","Separation of Duties","Review T&E system access and SOD assessment for conflicts","SD001.P – T&E SOD","Review T&E SOD assessment and verify user access is properly controlled and conflicts are mitigated",PDF.travelExpense + "#page=16")
           ]),
         ]
-      },
+      },,
       {
         id: "acc-prog-12",
         name: "Management of Disbursements",
@@ -882,17 +976,35 @@ export const auditData = {
             co("acc-p12-ra-3","Procurement Bypass Controls","Determine if management oversight prevents procurement bypass and ensures fair value analysis","Procurement Bypasses","Review bypass identification process and supplier approval controls","PR002.P – Procurement Bypasses","Identify transactions bypassing procurement and verify management oversight and fair value justification",PDF.mod + "#page=17")
           ]),
         ]
-      },
+      },,
+      {
+        id: "it-prog-4",
+        name: "Global Compensation",
+        description: "Compensation decisions, approvals, acquired employees, and data privacy",
+        pdfUrl: PDF.globalComp,
+        riskAreas: [
+          ra("it-p4-ra-1","Data Privacy","Risks related to protection of personal information in compensation processes",[
+            co("it-p4-ra-1","Compensation Data Privacy","Evaluate whether PI and SPI is protected with appropriate access controls and SOD","Data Protection","Review data protection controls for compensation data including access controls and vendor assurances","DP001.P – Data Protection","Review compensation data handling, access controls, and vendor data privacy assurances for policy compliance",PDF.globalComp + "#page=13")
+          ]),
+          ra("it-p4-ra-2","Compensation Decisions and Approvals","Risks related to compensation accuracy and proper management approval",[
+            co("it-p4-ra-2","Compensation Process","Ensure compensation programmes are properly designed with control reports, exception reports, and management reviews","Compensation Process Design","Review compensation process controls, exception reports, and reconciliation procedures","CM001.P – Compensation","Select sample of compensation decisions and verify accuracy, exception reporting, and management approval",PDF.globalComp + "#page=10")
+          ]),
+          ra("it-p4-ra-3","Acquired Employees","Risks related to non-standard compensation for employees acquired through acquisitions",[
+            co("it-p4-ra-3","Acquired Employee Controls","Tests if acquired employees have non-standard compensation and whether administered per applicable policies","Acquired Employees – Post Integration","Review compensation controls for acquired employees and integration compliance","CM002.P – Acquired Employees","Select sample of acquired employees and verify compensation policy compliance, system migration, and integration controls",PDF.globalComp + "#page=11")
+          ]),
+        ]
+      },,
     ]
   },
 
   // ─────────────────────────────────────────────
-  // MANUFACTURING AND PARTS
+  // IBM INFRASTRUCTURE
   // ─────────────────────────────────────────────
-  manufacturing: {
-    name: "Manufacturing and Parts",
-    description: "Manufacturing operations, logistics, inventory, and trade compliance",
+  ibm_infrastructure: {
+    name: "IBM Infrastructure",
+    description: "Manufacturing operations, parts logistics, and supply chain management",
     color: "#0ea5e9",
+    processNumbers: "54-00-00 · 32-20-00",
     pdfUrl: PDF.manufacturing,
     programs: [
       {
@@ -914,27 +1026,7 @@ export const auditData = {
             co("mfg-p1-ra-4","Manufacturing SOD","Verify authorisation controls and revalidation of user access comply with IBM security standards","System Access and Separation of Duties","Review system access, revalidation, and SOD assessment","SA001.S – System Access","Review user access rights to manufacturing systems and verify periodic revalidation and SOD conflict resolution",PDF.manufacturing + "#page=33")
           ]),
         ]
-      },
-      {
-        id: "mfg-prog-2",
-        name: "GL Physical Logistics",
-        description: "Distribution operations, supplier management, inventory controls, and environmental management",
-        pdfUrl: PDF.physLogistics,
-        riskAreas: [
-          ra("mfg-p2-ra-1","Supplier Management","Risks related to logistics supplier performance, invoice accuracy, and contract management",[
-            co("mfg-p2-ra-1","Supplier Performance","Verify supplier performance metrics are monitored and validated by IBM management system","Measurements","Review supplier performance metrics and management visibility controls","SM001.P – Measurements","Review logistics supplier performance reports, SLA compliance, and management action for underperformance",PDF.physLogistics + "#page=30")
-          ]),
-          ra("mfg-p2-ra-2","Inventory Controls","Risks related to physical security, supply chain security, and asset controls",[
-            co("mfg-p2-ra-2","Inventory and Asset Controls","Verify inventory counts performed per contract with variance analysis and timely loss detection","Inventory Controls and Verification","Review physical security, cycle count procedures, and asset disposition controls","IC003.P – Inventory Controls","Test inventory count procedures, review security controls, and verify timely investigation of discrepancies",PDF.physLogistics + "#page=27")
-          ]),
-          ra("mfg-p2-ra-3","Distribution Operations","Risks related to receiving, shipping, and records management",[
-            co("mfg-p2-ra-3","Distribution Controls","Ensure timely and safe receipt and shipment of commodities with accurate documentation","Receiving","Review receiving procedures, documentation, and return handling controls","DO001.P – Receiving","Observe or review receiving procedures and verify accuracy of documentation and handling of discrepancies",PDF.physLogistics + "#page=17")
-          ]),
-          ra("mfg-p2-ra-4","Environmental Management","Risks related to environmental compliance in logistics operations",[
-            co("mfg-p2-ra-4","Environmental Compliance","Ensure environmental requirements compliance in supplier operations and material handling","Environmental Management","Review environmental management processes and supplier compliance controls","EM001.P – Environmental Management","Review supplier environmental assessments, compliance documentation, and management oversight",PDF.physLogistics + "#page=34")
-          ]),
-        ]
-      },
+      },,
       {
         id: "mfg-prog-3",
         name: "Parts Logistics",
@@ -951,54 +1043,18 @@ export const auditData = {
             co("mfg-p3-ra-3","Supplier Contracts","Verify contracts include detailed scope, performance measurements, and change management procedures","Scope of Work Management","Review outsourced logistics contracts for completeness and performance controls","OM001.P – Scope of Work","Select logistics supplier contracts and verify scope definition, SLA metrics, and change management controls",PDF.partsLogistics + "#page=24")
           ]),
         ]
-      },
-      {
-        id: "mfg-prog-4",
-        name: "GL Trade Compliance",
-        description: "Export/import classification, customs declarations, export controls, and trade programme management",
-        pdfUrl: PDF.tradeCompliance,
-        riskAreas: [
-          ra("mfg-p4-ra-1","Classification","Risks related to accurate customs and export commodity classification",[
-            co("mfg-p4-ra-1","Customs Classification","Validate timely, accurate, consistent classification with proper approvals and duty impact tracking","Classification of Goods for Customs","Review customs classification process, approvals, and duty impact analysis","IC001.P – Classification","Select sample of classified products and verify accuracy, consistency, required approvals, and duty calculations",PDF.tradeCompliance + "#page=15")
-          ]),
-          ra("mfg-p4-ra-2","Customs Declaration","Risks related to accuracy and completeness of customs declarations",[
-            co("mfg-p4-ra-2","Customs Declarations","Verify declarations are complete, accurate, and consistent with supporting documents","Customs Declarations","Review customs declaration preparation process and post-entry correction controls","CD001.P – Customs Declarations","Select sample of customs declarations and verify completeness, accuracy, and consistency with commercial invoices",PDF.tradeCompliance + "#page=18")
-          ]),
-          ra("mfg-p4-ra-3","Export Regulatory Controls","Risks related to denied party screening and boycott compliance",[
-            co("mfg-p4-ra-3","Export Controls","Verify all export/re-export shipments are screened against denied party lists","Denied Parties List Screening","Review DPL screening process and suspension procedures for matches","EC001.P – DPL Screening","Test sample of export shipments and verify DPL screening was performed prior to shipment release",PDF.tradeCompliance + "#page=12")
-          ]),
-          ra("mfg-p4-ra-4","Customs Risk Management","Risks related to import licences, antidumping duties, and free trade programmes",[
-            co("mfg-p4-ra-4","Import Licensing","Ensure valid licences/permits are in place prior to import with terms of agreement compliance","Import Licenses and Permits","Review import licensing process and validity tracking","CR001.P – Import Licenses","Select sample of imports and verify required licences are in place, current, and terms are complied with",PDF.tradeCompliance + "#page=25")
-          ]),
-        ]
-      },
-      {
-        id: "mfg-prog-5",
-        name: "CRM for Hardware and Software",
-        description: "Sales management, pricing, contractual agreements, and solution delivery",
-        pdfUrl: PDF.crmHW,
-        riskAreas: [
-          ra("mfg-p5-ra-1","Financial Management","Risks related to revenue recognition and customer claims",[
-            co("mfg-p5-ra-1","Revenue Recognition","Validate revenue recognised per accounting policies with contract completeness and delivery confirmation","Revenue Recognition","Review revenue recognition controls for hardware and software contracts","SE004.P – Revenue Recognition","Select sample of contracts and verify revenue recognition timing, delivery evidence, and accounting accuracy",PDF.crmHW + "#page=29")
-          ]),
-          ra("mfg-p5-ra-2","Solution Delivery","Risks related to solution implementation, asset management, and software licence compliance",[
-            co("mfg-p5-ra-2","Delivery Controls","Validate solution delivery implements customer requirements with quality assurance","Delivery Implementation","Review solution delivery process for customer requirement compliance and quality assurance","SE001.P – Delivery","Select sample of delivered solutions and verify customer requirements were met and revenue properly recognised",PDF.crmHW + "#page=26")
-          ]),
-          ra("mfg-p5-ra-3","Sales Management","Risks related to pricing approvals and contractual agreement controls",[
-            co("mfg-p5-ra-3","Pricing Controls","Ensure solutions are correctly priced with all elements approved within delegation limits","Pricing","Review pricing approval process and documentation for hardware and software deals","SD002.P – Pricing","Select sample of deals and verify pricing authorisation, delegation compliance, and billing plan accuracy",PDF.crmHW + "#page=20")
-          ]),
-        ]
-      },
+      },,
     ]
   },
 
   // ─────────────────────────────────────────────
-  // MARKETING
+  // MARKETING AND COMMUNICATIONS
   // ─────────────────────────────────────────────
-  marketing: {
-    name: "Marketing",
-    description: "Marketing, communications, procurement, sales incentives, and CRM for services",
-    color: "#06b6d4",
+  marketing_comms: {
+    name: "Marketing and Communications",
+    description: "Marketing, communications, ESG reporting, and corporate social responsibility",
+    color: "#db2777",
+    processNumbers: "50-20-00 · 50-50-00 · 51-00-00 · 18-80-00",
     pdfUrl: PDF.marketing,
     programs: [
       {
@@ -1020,7 +1076,7 @@ export const auditData = {
             co("mkt-p1-ra-4","Data Privacy","Verify IBM assets, sensitive information, and customer data are properly protected per guidelines","Data Privacy and Data Security","Review data classification and protection controls in marketing processes","DP001.P – Data Privacy","Review marketing data handling procedures, access controls, and compliance with IBM privacy guidelines",PDF.marketing + "#page=25")
           ]),
         ]
-      },
+      },,
       {
         id: "mkt-prog-2",
         name: "Communications and Brand Marketing",
@@ -1040,87 +1096,7 @@ export const auditData = {
             co("mkt-p2-ra-4","Data Security Controls","Confirm IBM assets and sensitive information are properly classified, protected, and access is controlled","Data Privacy and Data Security","Review data classification, access controls, and privacy compliance in communications","DP001.P – Data Privacy","Review data handling procedures, access controls, and GDPR compliance in communications and brand marketing",PDF.commsBrand + "#page=24")
           ]),
         ]
-      },
-      {
-        id: "mkt-prog-3",
-        name: "Procurement",
-        description: "Supplier assessment, selection, contract management, purchase orders, and environmental programmes",
-        pdfUrl: PDF.procurement,
-        riskAreas: [
-          ra("mkt-p3-ra-1","Supplier Assessment","Risks related to new supplier evaluation and integrity focus supplier checks",[
-            co("mkt-p3-ra-1","Supplier Assessment Controls","Validate new suppliers are assessed against DPL/USL, financial criteria, and environmental requirements","Supplier Assessment","Review new supplier assessment process including DPL screening and RBA/SECLA requirements","SA001.P – Supplier Assessment","Select sample of new suppliers and verify assessment against DPL, financial criteria, and agreement signing",PDF.procurement + "#page=16")
-          ]),
-          ra("mkt-p3-ra-2","Supplier Selection and Fair Value","Risks related to competitive sourcing and fair value determination",[
-            co("mkt-p3-ra-2","Sourcing Controls","Confirm appropriate sourcing techniques, fair value analysis, and required approvals were obtained","Supplier Selection and Fair Value Determination","Review sourcing process and fair value documentation","SF001.P – Supplier Selection","Select sample of procurement decisions and verify competitive sourcing, fair value analysis, and approvals",PDF.procurement + "#page=23")
-          ]),
-          ra("mkt-p3-ra-3","Contract Management","Risks related to contract administration and supplier deliverables",[
-            co("mkt-p3-ra-3","Contract Administration","Verify contracts are accurately recorded with valid terms, supplier performance monitored, and amendments controlled","Contract Administration","Review contract management process and supplier performance monitoring","CM001.P – Contract Administration","Select sample of contracts and verify accuracy, performance monitoring, and amendment control procedures",PDF.procurement + "#page=29")
-          ]),
-          ra("mkt-p3-ra-4","Procurement Bypass","Risks related to bypassing approved procurement channels",[
-            co("mkt-p3-ra-4","Bypass Controls","Identify instances where procurement process was bypassed and verify Blue Book requirements were followed","Procurement Bypass Identification","Review bypass identification process and management approval controls","PB001.P – Procurement Bypass","Identify procurement bypass transactions and verify management oversight and fair value justification",PDF.procurement + "#page=44")
-          ]),
-        ]
-      },
-      {
-        id: "mkt-prog-4",
-        name: "Global Sales Incentives",
-        description: "Incentive plan deployment, manual adjustments, accruals, and access management",
-        pdfUrl: PDF.salesIncentives,
-        riskAreas: [
-          ra("mkt-p4-ra-1","Manual Adjustments","Risks related to manual adjustment authorisation and duplicate processing",[
-            co("mkt-p4-ra-1","Manual Adjustment Controls","Validate MAAs/MMCs are processed per guidelines, properly approved, and duplicates identified","Manual Adjustments","Review manual adjustment process for proper authorisation and duplicate detection","EP004.P – Manual Adjustments","Select sample of manual adjustments and verify guidelines compliance, proper approval, and duplicate checks",PDF.salesIncentives + "#page=17")
-          ]),
-          ra("mkt-p4-ra-2","Incentive Plan Deployment","Risks related to timely deployment of incentive plan letters",[
-            co("mkt-p4-ra-2","IPL Deployment","Verify seller delays between offer/acceptance dates were justified and communicated","Incentive Plan Letter Deployment","Review IPL deployment timing and communication controls for delays","IP001.P – IPL Deployment","Select sample of IPLs and verify deployment timing, delay justification, and management communication",PDF.salesIncentives + "#page=12")
-          ]),
-          ra("mkt-p4-ra-3","Accruals and Deferrals","Risks related to incentive accrual accuracy and management approval",[
-            co("mkt-p4-ra-3","Accrual Controls","Verify quarterly accruals/deferrals are prepared per guidelines and reconcile to source documents","Accruals and Deferrals","Review incentive accrual preparation and management approval process","AR001.P – Accruals","Select sample of incentive accruals and verify guideline compliance, management approval, and reconciliation",PDF.salesIncentives + "#page=22")
-          ]),
-          ra("mkt-p4-ra-4","Access Management and Data Protection","Risks related to ISI system access and GDPR compliance",[
-            co("mkt-p4-ra-4","Access and Data Controls","Validate ISI system access is controlled by role and GDPR compliance is maintained","Systems Access and Separation of Duties","Review ISI system access controls and data protection compliance","DA002.P – Systems Access","Review ISI user access rights, SOD assessment, and GDPR data protection controls for sales incentive data",PDF.salesIncentives + "#page=25")
-          ]),
-        ]
-      },
-      {
-        id: "mkt-prog-5",
-        name: "Quote to Cash",
-        description: "Order management, revenue recognition, billing, and business continuity",
-        pdfUrl: PDF.quoteToCash,
-        riskAreas: [
-          ra("mkt-p5-ra-1","Firm Order","Risks related to order management accuracy and contract compliance",[
-            co("mkt-p5-ra-1","Order Management Controls","Verify contracts are accurately recorded, credit checks performed, and contract modifications properly authorised","Contract / Order Management","Review order management process for completeness and authorisation controls","CM001.P – Contract Management","Select sample of orders and verify contract accuracy, credit checks, and authorisation of any modifications",PDF.quoteToCash + "#page=16")
-          ]),
-          ra("mkt-p5-ra-2","Revenue Recognition","Risks related to accurate revenue recognition for hardware, software, and services",[
-            co("mkt-p5-ra-2","Revenue Recognition","Confirm fulfilment activities support revenue recognition in compliance with IBM procedures and GAAP","Revenue Recognition","Review revenue recognition process for major product and service categories","CM004.P – Revenue Recognition","Select sample of revenue transactions across all categories and verify recognition criteria and supporting evidence",PDF.quoteToCash + "#page=23")
-          ]),
-          ra("mkt-p5-ra-3","Billing","Risks related to billing accuracy and adjustment processing",[
-            co("mkt-p5-ra-3","Billing Controls","Validate shipped items are billed accurately with reconciliation performed and adjustments authorised","Billing – Ship / Bill / Invoice Reconciliation","Review billing reconciliation process and adjustment authorisation controls","BI002.P – Billing Reconciliation","Select sample of billing transactions and verify ship/bill reconciliation, invoice accuracy, and adjustment approvals",PDF.quoteToCash + "#page=33")
-          ]),
-          ra("mkt-p5-ra-4","Separation of Duties","Risks related to SOD in order management and billing",[
-            co("mkt-p5-ra-4","QTC SOD","Confirm conflicting duties are identified and mitigated with appropriate monitoring controls","Separation of Duties","Review SOD assessment for quote to cash processes","SD001.P – QTC SOD","Review SOD matrix for order management and billing and verify effective secondary controls are in place",PDF.quoteToCash + "#page=42")
-          ]),
-        ]
-      },
-      {
-        id: "mkt-prog-6",
-        name: "CRM for Services",
-        description: "Solution design and delivery, financial management, data protection, and labour claiming",
-        pdfUrl: PDF.crmServices,
-        riskAreas: [
-          ra("mkt-p6-ra-1","Solution Design","Risks related to services solution pricing, contract design, and mandatory process compliance",[
-            co("mkt-p6-ra-1","Solution Design Controls","Ensure the opportunity has been progressed using mandatory IBM processes and pricing approvals","Solution Design Mandatories","Review solution design process for complexity calculation and mandatory approval controls","SD001.P – Solution Design","Select sample of service opportunities and verify mandatory process compliance, pricing, and contract design approvals",PDF.crmServices + "#page=20")
-          ]),
-          ra("mkt-p6-ra-2","Solution Delivery","Risks related to delivery implementation, asset management, and contract governance",[
-            co("mkt-p6-ra-2","Delivery Controls","Validate solution implementation and startup activities are properly planned and executed","Solution Startup and Implementation","Review delivery implementation controls and performance monitoring","SE001.P – Delivery Implementation","Select sample of service deliveries and verify implementation planning, quality assurance, and contract compliance",PDF.crmServices + "#page=31")
-          ]),
-          ra("mkt-p6-ra-3","Financial Management","Risks related to revenue recognition accuracy and profitability tracking",[
-            co("mkt-p6-ra-3","Financial Controls","Validate financial management, revenue recognition, and profitability tracking for services","Financial Management","Review financial management process including revenue recognition and cost tracking","FM001.P – Financial Management","Select sample of service contracts and verify revenue recognition accuracy, profitability reporting, and cost allocation",PDF.crmServices + "#page=52")
-          ]),
-          ra("mkt-p6-ra-4","Data Security and Privacy","Risks related to protection of PI/SPI data in services delivery",[
-            co("mkt-p6-ra-4","Data Protection","Validate adequate controls protect PI/SPI data in the services delivery process","Data Protection and Privacy","Review data classification and access controls for services delivery data","DS001.P – Data Protection","Review data handling procedures for services delivery and verify PI/SPI access controls and GDPR compliance",PDF.crmServices + "#page=49")
-          ]),
-        ]
-      },
+      },,
       {
         id: "mkt-prog-7",
         name: "ESG Reporting",
@@ -1137,7 +1113,7 @@ export const auditData = {
             co("mkt-p7-ra-3","Monitoring Controls","Validate management monitoring and review processes are documented and executed","Monitoring and Review","Review ESG management review procedures and change management controls","MM001.P – Monitoring","Review ESG monitoring documentation, management review evidence, and change management processes",PDF.esgReporting + "#page=21")
           ]),
         ]
-      },
+      },,
       {
         id: "mkt-prog-8",
         name: "Corporate Social Responsibility",
@@ -1219,17 +1195,171 @@ export const auditData = {
             ]
           }
         ]
-      },
+      },,
     ]
   },
 
   // ─────────────────────────────────────────────
-  // INFORMATION TECHNOLOGY
+  // GLOBAL SALES
   // ─────────────────────────────────────────────
-  it: {
-    name: "Information Technology",
-    description: "IT governance, real estate, environmental management, and opportunity management",
-    color: "#1e40af",
+  global_sales: {
+    name: "Global Sales",
+    description: "CRM for hardware and software, CRM for services, and opportunity management",
+    color: "#16a34a",
+    processNumbers: "30-00-00 · 60-00-00 · 60-10-00",
+    pdfUrl: PDF.crmHW,
+    programs: [
+      {
+        id: "mfg-prog-5",
+        name: "CRM for Hardware and Software",
+        description: "Sales management, pricing, contractual agreements, and solution delivery",
+        pdfUrl: PDF.crmHW,
+        riskAreas: [
+          ra("mfg-p5-ra-1","Financial Management","Risks related to revenue recognition and customer claims",[
+            co("mfg-p5-ra-1","Revenue Recognition","Validate revenue recognised per accounting policies with contract completeness and delivery confirmation","Revenue Recognition","Review revenue recognition controls for hardware and software contracts","SE004.P – Revenue Recognition","Select sample of contracts and verify revenue recognition timing, delivery evidence, and accounting accuracy",PDF.crmHW + "#page=29")
+          ]),
+          ra("mfg-p5-ra-2","Solution Delivery","Risks related to solution implementation, asset management, and software licence compliance",[
+            co("mfg-p5-ra-2","Delivery Controls","Validate solution delivery implements customer requirements with quality assurance","Delivery Implementation","Review solution delivery process for customer requirement compliance and quality assurance","SE001.P – Delivery","Select sample of delivered solutions and verify customer requirements were met and revenue properly recognised",PDF.crmHW + "#page=26")
+          ]),
+          ra("mfg-p5-ra-3","Sales Management","Risks related to pricing approvals and contractual agreement controls",[
+            co("mfg-p5-ra-3","Pricing Controls","Ensure solutions are correctly priced with all elements approved within delegation limits","Pricing","Review pricing approval process and documentation for hardware and software deals","SD002.P – Pricing","Select sample of deals and verify pricing authorisation, delegation compliance, and billing plan accuracy",PDF.crmHW + "#page=20")
+          ]),
+        ]
+      },,
+      {
+        id: "mkt-prog-6",
+        name: "CRM for Services",
+        description: "Solution design and delivery, financial management, data protection, and labour claiming",
+        pdfUrl: PDF.crmServices,
+        riskAreas: [
+          ra("mkt-p6-ra-1","Solution Design","Risks related to services solution pricing, contract design, and mandatory process compliance",[
+            co("mkt-p6-ra-1","Solution Design Controls","Ensure the opportunity has been progressed using mandatory IBM processes and pricing approvals","Solution Design Mandatories","Review solution design process for complexity calculation and mandatory approval controls","SD001.P – Solution Design","Select sample of service opportunities and verify mandatory process compliance, pricing, and contract design approvals",PDF.crmServices + "#page=20")
+          ]),
+          ra("mkt-p6-ra-2","Solution Delivery","Risks related to delivery implementation, asset management, and contract governance",[
+            co("mkt-p6-ra-2","Delivery Controls","Validate solution implementation and startup activities are properly planned and executed","Solution Startup and Implementation","Review delivery implementation controls and performance monitoring","SE001.P – Delivery Implementation","Select sample of service deliveries and verify implementation planning, quality assurance, and contract compliance",PDF.crmServices + "#page=31")
+          ]),
+          ra("mkt-p6-ra-3","Financial Management","Risks related to revenue recognition accuracy and profitability tracking",[
+            co("mkt-p6-ra-3","Financial Controls","Validate financial management, revenue recognition, and profitability tracking for services","Financial Management","Review financial management process including revenue recognition and cost tracking","FM001.P – Financial Management","Select sample of service contracts and verify revenue recognition accuracy, profitability reporting, and cost allocation",PDF.crmServices + "#page=52")
+          ]),
+          ra("mkt-p6-ra-4","Data Security and Privacy","Risks related to protection of PI/SPI data in services delivery",[
+            co("mkt-p6-ra-4","Data Protection","Validate adequate controls protect PI/SPI data in the services delivery process","Data Protection and Privacy","Review data classification and access controls for services delivery data","DS001.P – Data Protection","Review data handling procedures for services delivery and verify PI/SPI access controls and GDPR compliance",PDF.crmServices + "#page=49")
+          ]),
+        ]
+      },,
+      {
+        id: "it-prog-3",
+        name: "Opportunity Management",
+        description: "Opportunity identification, qualification, data privacy, and financial management",
+        pdfUrl: PDF.oppMgmt,
+        riskAreas: [
+          ra("it-p3-ra-1","Opportunity Identification and Validation","Risks related to qualifying and passing opportunities to relevant sales teams",[
+            co("it-p3-ra-1","Opportunity Qualification","Ensures offerings are monitored and qualified opportunities are passed to relevant sales teams","Engage and Qualify Sales Process","Review opportunity qualification process and handoff controls","OM001.P – Opportunity Management","Select sample of opportunities and verify qualification criteria, process compliance, and timely handoff to sales",PDF.oppMgmt + "#page=11")
+          ]),
+          ra("it-p3-ra-2","Data Privacy and Access Management","Risks related to protection of opportunity data and system access controls",[
+            co("it-p3-ra-2","Data and Access Controls","Verifies opportunity management data is safeguarded with proper access controls and SOD","Data Privacy and Access Management","Review data protection and access control procedures for opportunity management systems","AS001.S – Access Management","Review opportunity management system access rights and verify data protection controls are in place",PDF.oppMgmt + "#page=18")
+          ]),
+          ra("it-p3-ra-3","Financial Management","Risks related to accurate expense recovery and intercompany allocation",[
+            co("it-p3-ra-3","Financial Controls","Validates expenses and costs are fully recovered and appropriately allocated through intercompany agreements","Financial Management","Review financial management process for opportunity management cost recovery","FM001.S – Financial Management","Review intercompany agreements and document of understanding for opportunity management cost allocation",PDF.oppMgmt + "#page=21")
+          ]),
+        ]
+      },,
+    ]
+  },
+
+  // ─────────────────────────────────────────────
+  // QUOTE TO CASH AND OPERATIONS
+  // ─────────────────────────────────────────────
+  quote_to_cash: {
+    name: "Quote to Cash and Operations",
+    description: "Quote to cash and accounts receivable",
+    color: "#7c5cd8",
+    processNumbers: "52-00-00 · 52-40-00",
+    pdfUrl: PDF.quoteToCash,
+    programs: [
+      {
+        id: "mkt-prog-5",
+        name: "Quote to Cash",
+        description: "Order management, revenue recognition, billing, and business continuity",
+        pdfUrl: PDF.quoteToCash,
+        riskAreas: [
+          ra("mkt-p5-ra-1","Firm Order","Risks related to order management accuracy and contract compliance",[
+            co("mkt-p5-ra-1","Order Management Controls","Verify contracts are accurately recorded, credit checks performed, and contract modifications properly authorised","Contract / Order Management","Review order management process for completeness and authorisation controls","CM001.P – Contract Management","Select sample of orders and verify contract accuracy, credit checks, and authorisation of any modifications",PDF.quoteToCash + "#page=16")
+          ]),
+          ra("mkt-p5-ra-2","Revenue Recognition","Risks related to accurate revenue recognition for hardware, software, and services",[
+            co("mkt-p5-ra-2","Revenue Recognition","Confirm fulfilment activities support revenue recognition in compliance with IBM procedures and GAAP","Revenue Recognition","Review revenue recognition process for major product and service categories","CM004.P – Revenue Recognition","Select sample of revenue transactions across all categories and verify recognition criteria and supporting evidence",PDF.quoteToCash + "#page=23")
+          ]),
+          ra("mkt-p5-ra-3","Billing","Risks related to billing accuracy and adjustment processing",[
+            co("mkt-p5-ra-3","Billing Controls","Validate shipped items are billed accurately with reconciliation performed and adjustments authorised","Billing – Ship / Bill / Invoice Reconciliation","Review billing reconciliation process and adjustment authorisation controls","BI002.P – Billing Reconciliation","Select sample of billing transactions and verify ship/bill reconciliation, invoice accuracy, and adjustment approvals",PDF.quoteToCash + "#page=33")
+          ]),
+          ra("mkt-p5-ra-4","Separation of Duties","Risks related to SOD in order management and billing",[
+            co("mkt-p5-ra-4","QTC SOD","Confirm conflicting duties are identified and mitigated with appropriate monitoring controls","Separation of Duties","Review SOD assessment for quote to cash processes","SD001.P – QTC SOD","Review SOD matrix for order management and billing and verify effective secondary controls are in place",PDF.quoteToCash + "#page=42")
+          ]),
+        ]
+      },,
+      {
+        id: "acc-prog-9",
+        name: "Accounts Receivable",
+        description: "Debt collection, cash application, file adjustments, and business continuity",
+        pdfUrl: PDF.accountsReceivable,
+        riskAreas: [
+          ra("acc-p9-ra-1","Debt Collection","Risks related to effective collection programme and delinquent account management",[
+            co("acc-p9-ra-1","Collection Programme","Verify an effective documented collection programme is in place to achieve monthly targets","Collection Measurements and Reporting","Review delinquent dollars, write-offs, and performance tracking measurements","AR001.P – Collection Measurements","Select top delinquent accounts and verify collection plans, escalation, and management reporting",PDF.accountsReceivable + "#page=16")
+          ]),
+          ra("acc-p9-ra-2","Cash Application","Risks related to accurate and timely cash posting",[
+            co("acc-p9-ra-2","Cash Application Controls","Determine if adequate controls ensure funds are deposited accurately and AR records updated timely","Cash Application","Review cash application process and bank reconciliation controls","CA001.P – Cash Application","Test sample of cash receipts for accurate posting, bank reconciliation, and timeliness",PDF.accountsReceivable + "#page=13")
+          ]),
+          ra("acc-p9-ra-3","AR File Adjustments","Risks related to write-offs, refunds, and other AR adjustments",[
+            co("acc-p9-ra-3","Adjustment Controls","Determine if adequate procedures exist for processing AR adjustments with proper management approval","Write-offs","Review write-off and refund procedures for proper documentation and management approval levels","FA002.P – Write-offs","Select sample of write-offs and verify collection escalation was completed with appropriate management approval",PDF.accountsReceivable + "#page=19")
+          ]),
+          ra("acc-p9-ra-4","Separation of Duties","Risks related to SOD in cash and AR processes",[
+            co("acc-p9-ra-4","AR SOD","Ensure no one individual has responsibilities allowing them to circumvent controls","Separation of Duties","Review SOD assessment for AR and cash application processes","SD001.P – AR SOD","Review SOD matrix for AR process and verify secondary controls are in place for any identified conflicts",PDF.accountsReceivable + "#page=28")
+          ]),
+        ]
+      },,
+    ]
+  },
+
+  // ─────────────────────────────────────────────
+  // GLOBAL SALES INCENTIVES
+  // ─────────────────────────────────────────────
+  global_sales_incentives: {
+    name: "Global Sales Incentives",
+    description: "Sales incentive plan deployment, manual adjustments, accruals, and access management",
+    color: "#ea580c",
+    processNumbers: "58-00-00",
+    pdfUrl: PDF.salesIncentives,
+    programs: [
+      {
+        id: "mkt-prog-4",
+        name: "Global Sales Incentives",
+        description: "Incentive plan deployment, manual adjustments, accruals, and access management",
+        pdfUrl: PDF.salesIncentives,
+        riskAreas: [
+          ra("mkt-p4-ra-1","Manual Adjustments","Risks related to manual adjustment authorisation and duplicate processing",[
+            co("mkt-p4-ra-1","Manual Adjustment Controls","Validate MAAs/MMCs are processed per guidelines, properly approved, and duplicates identified","Manual Adjustments","Review manual adjustment process for proper authorisation and duplicate detection","EP004.P – Manual Adjustments","Select sample of manual adjustments and verify guidelines compliance, proper approval, and duplicate checks",PDF.salesIncentives + "#page=17")
+          ]),
+          ra("mkt-p4-ra-2","Incentive Plan Deployment","Risks related to timely deployment of incentive plan letters",[
+            co("mkt-p4-ra-2","IPL Deployment","Verify seller delays between offer/acceptance dates were justified and communicated","Incentive Plan Letter Deployment","Review IPL deployment timing and communication controls for delays","IP001.P – IPL Deployment","Select sample of IPLs and verify deployment timing, delay justification, and management communication",PDF.salesIncentives + "#page=12")
+          ]),
+          ra("mkt-p4-ra-3","Accruals and Deferrals","Risks related to incentive accrual accuracy and management approval",[
+            co("mkt-p4-ra-3","Accrual Controls","Verify quarterly accruals/deferrals are prepared per guidelines and reconcile to source documents","Accruals and Deferrals","Review incentive accrual preparation and management approval process","AR001.P – Accruals","Select sample of incentive accruals and verify guideline compliance, management approval, and reconciliation",PDF.salesIncentives + "#page=22")
+          ]),
+          ra("mkt-p4-ra-4","Access Management and Data Protection","Risks related to ISI system access and GDPR compliance",[
+            co("mkt-p4-ra-4","Access and Data Controls","Validate ISI system access is controlled by role and GDPR compliance is maintained","Systems Access and Separation of Duties","Review ISI system access controls and data protection compliance","DA002.P – Systems Access","Review ISI user access rights, SOD assessment, and GDPR data protection controls for sales incentive data",PDF.salesIncentives + "#page=25")
+          ]),
+        ]
+      },,
+    ]
+  },
+
+  // ─────────────────────────────────────────────
+  // GLOBAL REAL ESTATE
+  // ─────────────────────────────────────────────
+  global_real_estate: {
+    name: "IBM Global Real Estate",
+    description: "Lease transactions, lease administration, design and construction, and facilities operations",
+    color: "#64748b",
+    processNumbers: "48-10-00",
     pdfUrl: PDF.realEstate,
     programs: [
       {
@@ -1251,64 +1381,7 @@ export const auditData = {
             co("it-p1-ra-4","Facilities Controls","Validates a framework exists for planning, scheduling, and prioritising building maintenance for safety and security","Building Maintenance and Operations","Review facilities maintenance planning and asset protection controls","BE001.P – Building Maintenance","Review maintenance planning procedures, asset inventory controls, and safety compliance documentation",PDF.realEstate + "#page=25")
           ]),
         ]
-      },
-      {
-        id: "it-prog-2",
-        name: "Environmental Management",
-        description: "Regulatory compliance, incident prevention, energy management, and approved supplier use",
-        pdfUrl: PDF.envMgmt,
-        riskAreas: [
-          ra("it-p2-ra-1","Regulatory Compliance","Risks related to meeting IBM compliance obligations including legal and permit requirements",[
-            co("it-p2-ra-1","Compliance Obligations","Verifies an effective process for meeting IBM Compliance Obligations including legal and permit requirements","IBM Compliance Obligations","Review compliance obligation identification and tracking process","EM003.P – Compliance Obligations","Review compliance obligation register, permit status, and management review of compliance performance",PDF.envMgmt + "#page=18")
-          ]),
-          ra("it-p2-ra-2","Incident Reporting and Prevention","Risks related to environmental incident prevention and response",[
-            co("it-p2-ra-2","Incident Prevention","Verifies documented process for prevention, control, and response to environmental incidents","Environmental Incident Prevention and Reporting","Review incident prevention controls and response procedures","EM005.P – Incident Prevention","Review incident prevention procedures, response plans, and investigation reports for recent incidents",PDF.envMgmt + "#page=23")
-          ]),
-          ra("it-p2-ra-3","Use of Approved Suppliers","Risks related to environmental evaluation and use of approved suppliers",[
-            co("it-p2-ra-3","Approved Supplier Controls","Validates environmental evaluation and use of approved suppliers in compliance with IBM requirements","Environmental Evaluation and Approved Suppliers","Review supplier environmental evaluation and approval process","EM007.P – Approved Suppliers","Select sample of suppliers and verify environmental evaluation, approval status, and ongoing monitoring",PDF.envMgmt + "#page=26")
-          ]),
-          ra("it-p2-ra-4","Energy Management","Risks related to energy use control and cost reduction programmes",[
-            co("it-p2-ra-4","Energy Controls","Verifies the location has an effective energy management programme to control energy use and cost","Energy Management","Review energy management programme, targets, and performance monitoring","EM004.P – Energy Management","Review energy management programme documentation, performance targets, and management review evidence",PDF.envMgmt + "#page=20")
-          ]),
-          ra("it-p2-ra-5","Measurement Monitoring and Reporting","Risks related to environmental performance measurement and management review",[
-            co("it-p2-ra-5","Monitoring Controls","Validates monitoring, measurement, assessment, and management review processes are effectively implemented","Monitoring Measurement and Management Review","Review environmental performance monitoring and management review processes","EM023.P – Monitoring","Review environmental measurement methodology, data accuracy, and management review documentation",PDF.envMgmt + "#page=50")
-          ]),
-        ]
-      },
-      {
-        id: "it-prog-3",
-        name: "Opportunity Management",
-        description: "Opportunity identification, qualification, data privacy, and financial management",
-        pdfUrl: PDF.oppMgmt,
-        riskAreas: [
-          ra("it-p3-ra-1","Opportunity Identification and Validation","Risks related to qualifying and passing opportunities to relevant sales teams",[
-            co("it-p3-ra-1","Opportunity Qualification","Ensures offerings are monitored and qualified opportunities are passed to relevant sales teams","Engage and Qualify Sales Process","Review opportunity qualification process and handoff controls","OM001.P – Opportunity Management","Select sample of opportunities and verify qualification criteria, process compliance, and timely handoff to sales",PDF.oppMgmt + "#page=11")
-          ]),
-          ra("it-p3-ra-2","Data Privacy and Access Management","Risks related to protection of opportunity data and system access controls",[
-            co("it-p3-ra-2","Data and Access Controls","Verifies opportunity management data is safeguarded with proper access controls and SOD","Data Privacy and Access Management","Review data protection and access control procedures for opportunity management systems","AS001.S – Access Management","Review opportunity management system access rights and verify data protection controls are in place",PDF.oppMgmt + "#page=18")
-          ]),
-          ra("it-p3-ra-3","Financial Management","Risks related to accurate expense recovery and intercompany allocation",[
-            co("it-p3-ra-3","Financial Controls","Validates expenses and costs are fully recovered and appropriately allocated through intercompany agreements","Financial Management","Review financial management process for opportunity management cost recovery","FM001.S – Financial Management","Review intercompany agreements and document of understanding for opportunity management cost allocation",PDF.oppMgmt + "#page=21")
-          ]),
-        ]
-      },
-      {
-        id: "it-prog-4",
-        name: "Global Compensation",
-        description: "Compensation decisions, approvals, acquired employees, and data privacy",
-        pdfUrl: PDF.globalComp,
-        riskAreas: [
-          ra("it-p4-ra-1","Data Privacy","Risks related to protection of personal information in compensation processes",[
-            co("it-p4-ra-1","Compensation Data Privacy","Evaluate whether PI and SPI is protected with appropriate access controls and SOD","Data Protection","Review data protection controls for compensation data including access controls and vendor assurances","DP001.P – Data Protection","Review compensation data handling, access controls, and vendor data privacy assurances for policy compliance",PDF.globalComp + "#page=13")
-          ]),
-          ra("it-p4-ra-2","Compensation Decisions and Approvals","Risks related to compensation accuracy and proper management approval",[
-            co("it-p4-ra-2","Compensation Process","Ensure compensation programmes are properly designed with control reports, exception reports, and management reviews","Compensation Process Design","Review compensation process controls, exception reports, and reconciliation procedures","CM001.P – Compensation","Select sample of compensation decisions and verify accuracy, exception reporting, and management approval",PDF.globalComp + "#page=10")
-          ]),
-          ra("it-p4-ra-3","Acquired Employees","Risks related to non-standard compensation for employees acquired through acquisitions",[
-            co("it-p4-ra-3","Acquired Employee Controls","Tests if acquired employees have non-standard compensation and whether administered per applicable policies","Acquired Employees – Post Integration","Review compensation controls for acquired employees and integration compliance","CM002.P – Acquired Employees","Select sample of acquired employees and verify compensation policy compliance, system migration, and integration controls",PDF.globalComp + "#page=11")
-          ]),
-        ]
-      },
+      },,
     ]
-  }
+  },
 }

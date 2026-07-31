@@ -206,9 +206,17 @@ body {
 .info-card h3 {
   font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.2rem;
   color: #0f2d55;
   letter-spacing: -0.01em;
+}
+
+.hp-card-process-num {
+  font-size: 0.72rem;
+  color: #8a9ab0;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.5rem;
 }
 
 .info-card p {
@@ -339,12 +347,29 @@ body {
   padding: 1.75rem 2rem 1.5rem;
 }
 
+.flowchart-owner-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 0.2rem;
+}
+
 .flowchart-header h1 {
   font-size: 1.7rem;
-  margin: 0.4rem 0 0.25rem;
+  margin: 0.1rem 0 0.15rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: #fff;
+}
+
+.flowchart-process-numbers {
+  font-size: 0.76rem;
+  color: rgba(255,255,255,0.55);
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
 }
 
 .function-description {
@@ -1317,6 +1342,14 @@ body {
   font-weight: 700;
   align-self: flex-start;
   letter-spacing: 0.03em;
+}
+
+.library-card-proc-num {
+  font-size: 0.72rem;
+  color: #7a8a9a;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.04em;
+  margin-top: 0.3rem;
 }
 
 .library-card-meta {

@@ -100,7 +100,11 @@ function FlowchartPage() {
               {editMode ? '✕ Close Toolkit' : '✏️ Edit Toolkit'}
             </button>
           </div>
+          <div className="flowchart-owner-label">Process Owner</div>
           <h1>{functionData.name}</h1>
+          {functionData.processNumbers && (
+            <div className="flowchart-process-numbers">{functionData.processNumbers}</div>
+          )}
           <p className="function-description">{functionData.description}</p>
 
           <div className="program-selector">

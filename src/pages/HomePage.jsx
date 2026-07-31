@@ -18,19 +18,33 @@ function countStats(functionData) {
 }
 
 const functionOrder = [
-  { id: 'finance',       label: 'Finance' },
-  { id: 'accounting',    label: 'Accounting' },
-  { id: 'manufacturing', label: 'Manufacturing and Parts' },
-  { id: 'marketing',     label: 'Marketing' },
-  { id: 'it',            label: 'Information Technology' },
+  { id: 'chq_controller',          label: 'CHQ Controller' },
+  { id: 'treasury',                label: 'Treasury' },
+  { id: 'ibm_financing',           label: 'IBM Financing' },
+  { id: 'tax',                     label: 'Tax' },
+  { id: 'global_procurement',      label: 'Global Procurement' },
+  { id: 'human_resources',         label: 'Human Resources' },
+  { id: 'ibm_infrastructure',      label: 'IBM Infrastructure' },
+  { id: 'marketing_comms',         label: 'Marketing and Communications' },
+  { id: 'global_sales',            label: 'Global Sales' },
+  { id: 'quote_to_cash',           label: 'Quote to Cash and Operations' },
+  { id: 'global_sales_incentives', label: 'Global Sales Incentives' },
+  { id: 'global_real_estate',      label: 'IBM Global Real Estate' },
 ]
 
 const fnIcons = {
-  finance:       '💼',
-  accounting:    '📊',
-  manufacturing: '⚙️',
-  marketing:     '📣',
-  it:            '🖥️',
+  chq_controller:          '📒',
+  treasury:                '💰',
+  ibm_financing:           '🏦',
+  tax:                     '📋',
+  global_procurement:      '🛒',
+  human_resources:         '👥',
+  ibm_infrastructure:      '🏭',
+  marketing_comms:         '📣',
+  global_sales:            '🤝',
+  quote_to_cash:           '💵',
+  global_sales_incentives: '🎯',
+  global_real_estate:      '🏢',
 }
 
 function HomePage() {
@@ -64,12 +78,12 @@ function HomePage() {
       {/* ── Hero ───────────────────────────────────── */}
       <div className="home-container">
         <h1 className="home-title">IBM Audit Hub</h1>
-        <p className="home-subtitle">Navigate through business functions to explore comprehensive risk frameworks</p>
+        <p className="home-subtitle">Navigate through process owners to explore comprehensive risk frameworks</p>
 
         {/* ── Dropdown selector ──────────────────── */}
         <div className="function-selector">
           <label htmlFor="function-select" className="selector-label">
-            Select Business Function
+            Select Process Owner
           </label>
           <select
             id="function-select"
@@ -77,12 +91,10 @@ function HomePage() {
             onChange={handleFunctionChange}
             className="function-dropdown"
           >
-            <option value="">Choose a function...</option>
-            <option value="finance">Finance</option>
-            <option value="accounting">Accounting</option>
-            <option value="manufacturing">Manufacturing and Parts</option>
-            <option value="marketing">Marketing</option>
-            <option value="it">Information Technology</option>
+            <option value="">Choose a process owner...</option>
+            {functionOrder.map(({ id, label }) => (
+              <option key={id} value={id}>{label}</option>
+            ))}
           </select>
         </div>
       </div>
@@ -97,7 +109,7 @@ function HomePage() {
               <div className="hp-kpi-icon" style={{ background: '#eef3fb' }}>📁</div>
               <div>
                 <div className="hp-kpi-value">{functionOrder.length}</div>
-                <div className="hp-kpi-label">Business Functions</div>
+                <div className="hp-kpi-label">Process Owners</div>
               </div>
             </div>
             <div className="hp-kpi-card">
@@ -124,10 +136,10 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Function cards */}
+        {/* Process Owner cards */}
         <div className="hp-section">
           <div className="hp-section-header">
-            <h2 className="hp-section-title">Business Functions</h2>
+            <h2 className="hp-section-title">Process Owners</h2>
           </div>
           <div className="info-cards">
             {functionOrder.map(({ id, label }) => {
@@ -142,6 +154,9 @@ function HomePage() {
                   onClick={() => navigate(`/function/${id}`)}
                 >
                   <h3>{fnIcons[id]} {label}</h3>
+                  {fn.processNumbers && (
+                    <div className="hp-card-process-num">{fn.processNumbers}</div>
+                  )}
                   <p>{fn.description}</p>
                   <ul>
                     <li>{programs} Program{programs !== 1 ? 's' : ''}</li>

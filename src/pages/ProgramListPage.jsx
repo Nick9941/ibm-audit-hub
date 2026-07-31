@@ -5,12 +5,13 @@ import { auditData } from '../data/condensedData'
 function ProgramListPage() {
   const [query, setQuery] = useState('')
 
-  const allPrograms = Object.entries(auditData).flatMap(([functionId, functionData]) =>
-    functionData.programs.map(program => ({
+  const allPrograms = Object.entries(auditData).flatMap(([ownerId, ownerData]) =>
+    ownerData.programs.map(program => ({
       ...program,
-      functionId,
-      functionName: functionData.name,
-      functionColor: functionData.color
+      functionId: ownerId,
+      functionName: ownerData.name,
+      functionColor: ownerData.color,
+      processNumbers: ownerData.processNumbers,
     }))
   )
 
@@ -25,7 +26,7 @@ function ProgramListPage() {
     <div className="library-page">
       <div className="library-header">
         <h1 className="library-title">Program List</h1>
-        <p className="library-subtitle">All audit programs across business functions</p>
+        <p className="library-subtitle">All audit programs across process owners</p>
         <div className="library-search-bar">
           <input
             type="text"
@@ -50,6 +51,9 @@ function ProgramListPage() {
             <div className="library-card-tag" style={{ background: program.functionColor }}>
               {program.functionName}
             </div>
+            {program.processNumber && (
+              <div className="library-card-proc-num">{program.processNumber}</div>
+            )}
             <h3 className="library-card-title">{program.name}</h3>
             <p className="library-card-desc">{program.description}</p>
             <Link

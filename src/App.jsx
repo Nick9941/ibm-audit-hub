@@ -14,11 +14,18 @@ import ibmLogo from './assets/ibm logo.png'
 import { auditData } from './data/condensedData'
 
 const functionOrder = [
-  { id: 'finance',       label: 'Finance' },
-  { id: 'accounting',    label: 'Accounting' },
-  { id: 'manufacturing', label: 'Manufacturing and Parts' },
-  { id: 'marketing',     label: 'Marketing' },
-  { id: 'it',            label: 'Information Technology' },
+  { id: 'chq_controller',        label: 'CHQ Controller' },
+  { id: 'treasury',              label: 'Treasury' },
+  { id: 'ibm_financing',         label: 'IBM Financing' },
+  { id: 'tax',                   label: 'Tax' },
+  { id: 'global_procurement',    label: 'Global Procurement' },
+  { id: 'human_resources',       label: 'Human Resources' },
+  { id: 'ibm_infrastructure',    label: 'IBM Infrastructure' },
+  { id: 'marketing_comms',       label: 'Marketing and Communications' },
+  { id: 'global_sales',          label: 'Global Sales' },
+  { id: 'quote_to_cash',         label: 'Quote to Cash and Operations' },
+  { id: 'global_sales_incentives', label: 'Global Sales Incentives' },
+  { id: 'global_real_estate',    label: 'IBM Global Real Estate' },
 ]
 
 function HeaderSearch() {
