@@ -1,4 +1,5 @@
 // Condensed audit risk data - 4-level hierarchy: Program > Risk Area > Control Objective & Control > Test
+// Build: 2026-v2
 
 const PDF = {
   accounting:        '/Audit%20Programs%20-%20Word%20Documents/Accounting%2010-00-00.pdf',
@@ -182,7 +183,7 @@ export const auditData = {
             co("acc-p1-ra-7","Miscode Controls","Determine whether controls ensure miscodes are properly reviewed and approved for processing","Miscodes / Errors","Review default account activity and verify appropriate miscode correction procedures","PI003.P – Miscodes","Identify miscodes sitting in default accounts and verify business justification for uncorrected items",PDF.accounting + "#page=13")
           ]),
         ]
-      },,
+      },
       {
         id: "acc-prog-2",
         name: "Accounting Fixed Assets",
@@ -275,7 +276,7 @@ export const auditData = {
             }
           ]),
         ]
-      },,
+      },
       {
         id: "acc-prog-3",
         name: "Intercompany Accounting",
@@ -493,7 +494,7 @@ export const auditData = {
             co("acc-p3-ra-7","Data Privacy","Validate controls protect against unauthorised data access per IBM data privacy guidelines","Data Protection","Review data classification, access controls, and privacy compliance","DI004.P – Data Protection","Verify data privacy controls are implemented and access is limited to authorised users only",PDF.intercompany + "#page=11")
           ]),
         ]
-      },,
+      },
       {
         id: "acc-prog-6",
         name: "IBM Financing Accounting",
@@ -538,7 +539,7 @@ export const auditData = {
             co("acc-p6-ra-7","Receivable Purchasing Controls","Ensure receivable purchasing and inventory financing transactions are authorised, recorded, and monitored","Receivable Purchasing and Inventory Financing","Review receivable purchasing process and inventory financing controls","RC001.P – Receivable Purchasing","Select sample of receivable purchasing and inventory financing transactions and verify proper authorisation and recording",PDF.ibmFinancing + "#page=28")
           ]),
         ]
-      },,
+      },
       {
         id: "acc-prog-7",
         name: "Cost Accounting",
@@ -561,7 +562,7 @@ export const auditData = {
             co("acc-p7-ra-5","SOD Controls","Validate duties are segregated adequately to deter and detect errors, waste, and fraud","Separation of Duties and Excessive Authority","Review SOD assessment and verify system authorities are limited to those needed","SO001.P – SOD","Request SOD assessment and test that no individual holds conflicting authorities in the cost accounting system",PDF.costAccounting + "#page=23")
           ]),
         ]
-      },,
+      },
     ]
   },
 
@@ -658,7 +659,7 @@ export const auditData = {
             co("fin-p1-ra-11","Business Continuity Planning","Ensure treasury has a documented and tested business continuity plan","Business Continuity Controls","Review BCP documentation, testing frequency, and management sign-off","BC001.S – Business Continuity","Verify treasury BCP is documented, tested periodically, and critical processes can continue during disruption",PDF.treasury + "#page=71")
           ]),
         ]
-      },,
+      },
       {
         id: "fin-prog-3",
         name: "Risk and Insurance Management",
@@ -675,7 +676,7 @@ export const auditData = {
             co("fin-p3-ra-3","Claims Management","Ensure all applicable loss claims are filed timely with proper reconciliation","Insurance Claims","Review claims filing process and reimbursement reconciliation","RA006.P – Insurance Claims","Test sample of claims for timely filing, contractual reimbursement, and activity reconciliation",PDF.riskInsurance + "#page=16")
           ]),
         ]
-      },,
+      },
       {
         id: "fin-prog-4",
         name: "Pension Asset Management",
@@ -724,7 +725,7 @@ export const auditData = {
             ]
           },
         ]
-      },,
+      },
     ]
   },
 
@@ -754,7 +755,7 @@ export const auditData = {
             co("fin-p2-ra-3","Special Handling","Determine adequacy of focus account and lessons-learned process","Special Handling Process","Analyse circumstances leading to losses and identify prevention opportunities","SH001.P – Special Handling","Review focus account reports, loss analysis, and corrective action plans",PDF.creditRisk + "#page=18")
           ]),
         ]
-      },,
+      },
     ]
   },
 
@@ -790,7 +791,7 @@ export const auditData = {
             co("acc-p4-ra-5","FIN48 Analysis","Ensure controls are in place to adequately identify and evaluate Uncertain Tax Positions","Review of FIN 48 Analysis","Verify uncertain tax positions are identified, evaluated, and properly documented","FA001.P – FIN48 Review","Select uncertain tax positions and verify methodology, documentation, and management approval",PDF.incomeTax + "#page=25")
           ]),
         ]
-      },,
+      },
       {
         id: "acc-prog-5",
         name: "Indirect Tax",
@@ -810,7 +811,7 @@ export const auditData = {
             co("acc-p5-ra-4","Reconciliation Controls","Ensure account reconciliations are performed regularly with proper management approval","Account Reconciliation Performance","Review indirect tax account reconciliations for timeliness and completeness","BS001.P – Reconciliations","Review selected reconciliations for frequency compliance, content accuracy, and management sign-off",PDF.indirectTax + "#page=23")
           ]),
         ]
-      },,
+      },
     ]
   },
 
@@ -849,7 +850,7 @@ export const auditData = {
             co("acc-p8-ra-6","AP Business Continuity","Ensure a documented and tested business continuity plan exists for accounts payable operations","Business Continuity Controls","Review BCP documentation for AP processes, testing evidence, and management approval","BC001.S – Business Continuity","Verify AP BCP is documented, approved, and tested; confirm critical payment processes can continue during disruption",PDF.accountsPayable + "#page=27")
           ]),
         ]
-      },,
+      },
       {
         id: "mkt-prog-3",
         name: "Procurement",
@@ -869,7 +870,7 @@ export const auditData = {
             co("mkt-p3-ra-4","Bypass Controls","Identify instances where procurement process was bypassed and verify Blue Book requirements were followed","Procurement Bypass Identification","Review bypass identification process and management approval controls","PB001.P – Procurement Bypass","Identify procurement bypass transactions and verify management oversight and fair value justification",PDF.procurement + "#page=44")
           ]),
         ]
-      },,
+      },
       {
         id: "mfg-prog-2",
         name: "GL Physical Logistics",
@@ -889,7 +890,7 @@ export const auditData = {
             co("mfg-p2-ra-4","Environmental Compliance","Ensure environmental requirements compliance in supplier operations and material handling","Environmental Management","Review environmental management processes and supplier compliance controls","EM001.P – Environmental Management","Review supplier environmental assessments, compliance documentation, and management oversight",PDF.physLogistics + "#page=34")
           ]),
         ]
-      },,
+      },
       {
         id: "mfg-prog-4",
         name: "GL Trade Compliance",
@@ -909,7 +910,7 @@ export const auditData = {
             co("mfg-p4-ra-4","Import Licensing","Ensure valid licences/permits are in place prior to import with terms of agreement compliance","Import Licenses and Permits","Review import licensing process and validity tracking","CR001.P – Import Licenses","Select sample of imports and verify required licences are in place, current, and terms are complied with",PDF.tradeCompliance + "#page=25")
           ]),
         ]
-      },,
+      },
     ]
   },
 
@@ -942,7 +943,7 @@ export const auditData = {
             co("acc-p10-ra-4","Payroll SOD","Ensure SOD assessment is performed annually and conflicts are resolved","Separation of Duties","Review SOD assessment for payroll roles and verify mitigating controls","IC001.P – Payroll SOD","Request payroll SOD assessment and verify identified conflicts are eliminated or have effective secondary controls",PDF.payroll + "#page=18")
           ]),
         ]
-      },,
+      },
       {
         id: "acc-prog-11",
         name: "Travel and Expense",
@@ -959,7 +960,7 @@ export const auditData = {
             co("acc-p11-ra-3","T&E SOD","Ensure SOD assessment is performed and approved annually with conflicts addressed","Separation of Duties","Review T&E system access and SOD assessment for conflicts","SD001.P – T&E SOD","Review T&E SOD assessment and verify user access is properly controlled and conflicts are mitigated",PDF.travelExpense + "#page=16")
           ]),
         ]
-      },,
+      },
       {
         id: "acc-prog-12",
         name: "Management of Disbursements",
@@ -976,7 +977,7 @@ export const auditData = {
             co("acc-p12-ra-3","Procurement Bypass Controls","Determine if management oversight prevents procurement bypass and ensures fair value analysis","Procurement Bypasses","Review bypass identification process and supplier approval controls","PR002.P – Procurement Bypasses","Identify transactions bypassing procurement and verify management oversight and fair value justification",PDF.mod + "#page=17")
           ]),
         ]
-      },,
+      },
       {
         id: "it-prog-4",
         name: "Global Compensation",
@@ -993,7 +994,7 @@ export const auditData = {
             co("it-p4-ra-3","Acquired Employee Controls","Tests if acquired employees have non-standard compensation and whether administered per applicable policies","Acquired Employees – Post Integration","Review compensation controls for acquired employees and integration compliance","CM002.P – Acquired Employees","Select sample of acquired employees and verify compensation policy compliance, system migration, and integration controls",PDF.globalComp + "#page=11")
           ]),
         ]
-      },,
+      },
     ]
   },
 
@@ -1026,7 +1027,7 @@ export const auditData = {
             co("mfg-p1-ra-4","Manufacturing SOD","Verify authorisation controls and revalidation of user access comply with IBM security standards","System Access and Separation of Duties","Review system access, revalidation, and SOD assessment","SA001.S – System Access","Review user access rights to manufacturing systems and verify periodic revalidation and SOD conflict resolution",PDF.manufacturing + "#page=33")
           ]),
         ]
-      },,
+      },
       {
         id: "mfg-prog-3",
         name: "Parts Logistics",
@@ -1043,7 +1044,7 @@ export const auditData = {
             co("mfg-p3-ra-3","Supplier Contracts","Verify contracts include detailed scope, performance measurements, and change management procedures","Scope of Work Management","Review outsourced logistics contracts for completeness and performance controls","OM001.P – Scope of Work","Select logistics supplier contracts and verify scope definition, SLA metrics, and change management controls",PDF.partsLogistics + "#page=24")
           ]),
         ]
-      },,
+      },
     ]
   },
 
@@ -1076,7 +1077,7 @@ export const auditData = {
             co("mkt-p1-ra-4","Data Privacy","Verify IBM assets, sensitive information, and customer data are properly protected per guidelines","Data Privacy and Data Security","Review data classification and protection controls in marketing processes","DP001.P – Data Privacy","Review marketing data handling procedures, access controls, and compliance with IBM privacy guidelines",PDF.marketing + "#page=25")
           ]),
         ]
-      },,
+      },
       {
         id: "mkt-prog-2",
         name: "Communications and Brand Marketing",
@@ -1096,7 +1097,7 @@ export const auditData = {
             co("mkt-p2-ra-4","Data Security Controls","Confirm IBM assets and sensitive information are properly classified, protected, and access is controlled","Data Privacy and Data Security","Review data classification, access controls, and privacy compliance in communications","DP001.P – Data Privacy","Review data handling procedures, access controls, and GDPR compliance in communications and brand marketing",PDF.commsBrand + "#page=24")
           ]),
         ]
-      },,
+      },
       {
         id: "mkt-prog-7",
         name: "ESG Reporting",
@@ -1113,7 +1114,7 @@ export const auditData = {
             co("mkt-p7-ra-3","Monitoring Controls","Validate management monitoring and review processes are documented and executed","Monitoring and Review","Review ESG management review procedures and change management controls","MM001.P – Monitoring","Review ESG monitoring documentation, management review evidence, and change management processes",PDF.esgReporting + "#page=21")
           ]),
         ]
-      },,
+      },
       {
         id: "mkt-prog-8",
         name: "Corporate Social Responsibility",
@@ -1195,7 +1196,7 @@ export const auditData = {
             ]
           }
         ]
-      },,
+      },
     ]
   },
 
@@ -1225,7 +1226,7 @@ export const auditData = {
             co("mfg-p5-ra-3","Pricing Controls","Ensure solutions are correctly priced with all elements approved within delegation limits","Pricing","Review pricing approval process and documentation for hardware and software deals","SD002.P – Pricing","Select sample of deals and verify pricing authorisation, delegation compliance, and billing plan accuracy",PDF.crmHW + "#page=20")
           ]),
         ]
-      },,
+      },
       {
         id: "mkt-prog-6",
         name: "CRM for Services",
@@ -1245,7 +1246,7 @@ export const auditData = {
             co("mkt-p6-ra-4","Data Protection","Validate adequate controls protect PI/SPI data in the services delivery process","Data Protection and Privacy","Review data classification and access controls for services delivery data","DS001.P – Data Protection","Review data handling procedures for services delivery and verify PI/SPI access controls and GDPR compliance",PDF.crmServices + "#page=49")
           ]),
         ]
-      },,
+      },
       {
         id: "it-prog-3",
         name: "Opportunity Management",
@@ -1262,7 +1263,7 @@ export const auditData = {
             co("it-p3-ra-3","Financial Controls","Validates expenses and costs are fully recovered and appropriately allocated through intercompany agreements","Financial Management","Review financial management process for opportunity management cost recovery","FM001.S – Financial Management","Review intercompany agreements and document of understanding for opportunity management cost allocation",PDF.oppMgmt + "#page=21")
           ]),
         ]
-      },,
+      },
     ]
   },
 
@@ -1295,7 +1296,7 @@ export const auditData = {
             co("mkt-p5-ra-4","QTC SOD","Confirm conflicting duties are identified and mitigated with appropriate monitoring controls","Separation of Duties","Review SOD assessment for quote to cash processes","SD001.P – QTC SOD","Review SOD matrix for order management and billing and verify effective secondary controls are in place",PDF.quoteToCash + "#page=42")
           ]),
         ]
-      },,
+      },
       {
         id: "acc-prog-9",
         name: "Accounts Receivable",
@@ -1315,7 +1316,7 @@ export const auditData = {
             co("acc-p9-ra-4","AR SOD","Ensure no one individual has responsibilities allowing them to circumvent controls","Separation of Duties","Review SOD assessment for AR and cash application processes","SD001.P – AR SOD","Review SOD matrix for AR process and verify secondary controls are in place for any identified conflicts",PDF.accountsReceivable + "#page=28")
           ]),
         ]
-      },,
+      },
     ]
   },
 
@@ -1348,7 +1349,7 @@ export const auditData = {
             co("mkt-p4-ra-4","Access and Data Controls","Validate ISI system access is controlled by role and GDPR compliance is maintained","Systems Access and Separation of Duties","Review ISI system access controls and data protection compliance","DA002.P – Systems Access","Review ISI user access rights, SOD assessment, and GDPR data protection controls for sales incentive data",PDF.salesIncentives + "#page=25")
           ]),
         ]
-      },,
+      },
     ]
   },
 
@@ -1381,9 +1382,11 @@ export const auditData = {
             co("it-p1-ra-4","Facilities Controls","Validates a framework exists for planning, scheduling, and prioritising building maintenance for safety and security","Building Maintenance and Operations","Review facilities maintenance planning and asset protection controls","BE001.P – Building Maintenance","Review maintenance planning procedures, asset inventory controls, and safety compliance documentation",PDF.realEstate + "#page=25")
           ]),
         ]
-      },,
+      },
     ]
   },
 }
 
 // v2
+
+// build-20260731171536
